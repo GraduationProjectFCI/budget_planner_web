@@ -1,0 +1,25 @@
+@use './mixins.scss' as *;
+
+:root {
+  font-size: 11px;
+
+  @include sm {
+    font-size: 12px;
+  }
+
+  @include md {
+    font-size: 13px;
+  }
+
+  @include lg {
+    font-size: 14px;
+  }
+
+  @include xl {
+    font-size: 15px;
+  }
+
+  @include xxl {
+    font-size: 16px;
+  }
+}

@@ -1,24 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import "./styles/main.scss";
+
+import Register from "./pages/register";
+import Login from "./pages/login";
+import ForgetPassword from "./pages/forget-password";
+import ChangePassword from "./pages/change-password";
+import Home from "./pages/Home";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Unauthorized from "./pages/unauthorized";
+import CheckValidty from "./PrivateRoute/CheckValid";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/register"
+          element={
+            <CheckValidty>
+              <Register />
+            </CheckValidty>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <CheckValidty>
+              <Login />
+            </CheckValidty>
+          }
+        />
+        <Route path="/forgot-password" element={<ForgetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
