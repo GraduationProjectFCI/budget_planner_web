@@ -77,10 +77,12 @@ const ForgotPassword = () => {
 
         <form onSubmit={handleSubmit}>
           <FormControl pt={4}>
-            <FormHelperText>
-              Forgotten your password? Enter your e-mail address below, and
-              we'll send you an e-mail allowing you to reset it.
-            </FormHelperText>
+            <Center>
+              <FormHelperText>
+                Forgotten your password? Enter your e-mail address below, and
+                your new password
+              </FormHelperText>
+            </Center>
 
             <Input
               mt={5}
