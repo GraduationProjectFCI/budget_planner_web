@@ -1,0 +1,24 @@
+.container {
+  width: 20rem;
+  height: 20rem;
+  position: relative;
+}
+
+.details-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.percentage {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.details {
+  font-size: 1rem;
+  color: #888;
+}

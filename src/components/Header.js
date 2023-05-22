@@ -41,14 +41,7 @@ const Header = ({
   }
 
   return (
-    <Flex
-      p={2}
-      color="black"
-      justifyContent="center"
-      alignItems="center"
-      boxShadow="base"
-      bg="white"
-    >
+    <Flex p={2} color="black" justifyContent="center" alignItems="center">
       <Box pe={2}>
         {showSidebarButton && (
           <IconButton
@@ -69,7 +62,7 @@ const Header = ({
             </Button>
             <Button size="sm">
               <Link
-                to="/login"
+                href="/login"
                 onClick={() => {
                   localStorage.removeItem("userData");
                   localStorage.removeItem("resData");
