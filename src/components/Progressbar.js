@@ -1,13 +1,20 @@
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import {
   CircularProgress,
   CircularProgressLabel,
   Box,
   Text,
+  Center,
 } from "@chakra-ui/react";
 
-const SemiCircularProgressBar = memo(({ percentage, duration, details }) => {
+const CircularProgressBar = ({ percentage, duration, details }) => {
   const [progress, setProgress] = useState(0);
+  const progressColor = "teal.500";
+  const progressBarSize = "30rem";
+  const fontWeightBold = "bold";
+  const fontSize6xl = "6xl";
+  const fontColorGray600 = "#666";
+  const TrailColor = "#dddddd";
 
   useEffect(() => {
     let currentProgress = 0;
@@ -27,41 +34,33 @@ const SemiCircularProgressBar = memo(({ percentage, duration, details }) => {
   }, [percentage, duration]);
 
   return (
-    <Box
-      width="30rem"
-      height="30rem"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      m={8}
-    >
+    <Center>
       <CircularProgress
         value={progress}
-        size="30rem"
+        size={progressBarSize}
         thickness={4}
-        color="teal.500"
+        color={progressColor}
         capIsRound
-        startPosition="right"
-        endPosition="left"
+        trackColor={TrailColor}
       >
         <CircularProgressLabel
-          fontSize="6xl"
-          fontWeight="bold"
-          value={progress}
-          valueLabelDisplay="auto"
-          valueLabelStyle={{ fontSize: "5rem" }}
+          fontSize={fontSize6xl}
+          fontWeight={fontWeightBold}
         >
           {progress}%
           <Box textAlign="center">
-            <Text fontSize="md" fontWeight="bold" color="gray.600">
+            <Text
+              fontSize="md"
+              fontWeight={fontWeightBold}
+              color={fontColorGray600}
+            >
               {details}
             </Text>
           </Box>
         </CircularProgressLabel>
       </CircularProgress>
-    </Box>
+    </Center>
   );
-});
+};
 
-export default SemiCircularProgressBar;
+export default CircularProgressBar;

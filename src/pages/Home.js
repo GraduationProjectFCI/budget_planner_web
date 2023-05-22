@@ -1,74 +1,68 @@
 import { useState, useEffect } from "react";
-
 import {
-  Center,
   Text,
   Container,
-  Spinner,
   Box,
   Divider,
+  Button,
+  HStack,
+  Center,
 } from "@chakra-ui/react";
+
 import ProgressbarComponent from "../components/Progressbar";
 import http from "../connection/connect";
+import Loader from "../components/Loader";
 
 const Home = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const getUser = async () => {
-      const userData = await localStorage.getItem("userData");
-      const userToken = JSON.parse(userData).token;
-
-      const response = await http.get("/app/user-data", {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      setUser(response.data.data);
+    const getUserData = async () => {
+      try {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const response = await http.get("/app/user-data", {
+          headers: { Authorization: `Bearer ${userData?.token}` },
+        });
+        setUser(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    getUser();
+    getUserData();
   }, []);
 
-  if (!user) {
-    return (
-      <Center>
-        <Spinner color="teal.500" size="lg" />
-      </Center>
-    );
-  }
+  if (!user) return <Loader />;
 
-  const progressPercentage = (user.spent / user.total) * 100; // Specify the desired progress percentage here
-  const animationDuration = 1500; // Specify the animation duration in milliseconds
+  const { spent, remaining, total } = user;
+
+  const progressPercentage = (spent / total) * 100;
+  const animationDurationInMs = 1500;
 
   return (
-    <div>
-      <Container>
-        <Box minH="100vh">
-          <Center>
-            <Box m={15} p={5}>
-              <ProgressbarComponent
-                percentage={progressPercentage}
-                duration={animationDuration}
-                details={
-                  <Box>
-                    <Text fontWeight="bold">{user.spent} Spent </Text>
-                    <Text fontWeight="bold">{user.remaining} Remaining </Text>
-                    <Text fontWeight="bold">{user.total} Total Budget</Text>
-                  </Box>
-                }
-              />
-            </Box>
-          </Center>
-          <Divider
-            orientation="horizontal"
-            mb={3}
-            w="100%"
-            borderColor="blackAlpha.400"
-            borderStyle="dashed"
-          />
+    <Container>
+      <Box mt={5} p={5} boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)">
+        <ProgressbarComponent
+          percentage={progressPercentage}
+          duration={animationDurationInMs}
+          details={
+            <Text>
+              <Text fontWeight="bold">{spent} Spent </Text>
+              <Text fontWeight="bold">{remaining} Remaining </Text>
+              <Text fontWeight="bold">{total} Total Budget</Text>
+            </Text>
+          }
+        />
+      </Box>
+
+      <Center>
+        <Box p={10}>
+          <HStack>
+            <Button>Add Import Sheet</Button>
+            <Button>Add Export Sheet</Button>
+          </HStack>
         </Box>
-      </Container>
-    </div>
+      </Center>
+    </Container>
   );
 };
 

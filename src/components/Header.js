@@ -9,6 +9,7 @@ import {
   Button,
   Spinner,
   Center,
+  Text,
 } from "@chakra-ui/react";
 
 import { GoThreeBars } from "react-icons/go";
@@ -21,25 +22,24 @@ const Header = ({
   headPosition,
 }) => {
   const [isLoggedIn, setLoggedIn] = useState();
-  const [userData, setUserData] = useState();
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setLoggedIn(true);
       const userData = localStorage.getItem("userData");
       const value = JSON.parse(userData);
-      setUserData(value);
+      setUserName(value.user.name);
     } else {
       setLoggedIn(false);
     }
   }, []);
 
-  if (!userData) {
+  if (!userName) {
     <Center>
       <Spinner emptyColor="gray.200" color="teal.500" size="lg" />
     </Center>;
   }
-
   return (
     <Flex p={2} color="black" justifyContent="center" alignItems="center">
       <Box pe={2}>
@@ -51,27 +51,28 @@ const Header = ({
           />
         )}
       </Box>
-      <Box textAlign={headPosition}>{Page_Header}</Box>
+      <Box textAlign={headPosition}>
+        <Text
+          fontSize="lg"
+          fontWeight="bold"
+          p={2}
+        >{`${Page_Header}${" "} ${userName}`}</Text>
+      </Box>
 
       <Spacer />
       <Box>
         {isLoggedIn ? (
-          <HStack as="nav" spacing={3}>
-            <Button size="sm">
-              <Link to="/profile">{userData.user.name}</Link>
-            </Button>
-            <Button size="sm">
-              <Link
-                href="/login"
-                onClick={() => {
-                  localStorage.removeItem("userData");
-                  localStorage.removeItem("resData");
-                }}
-              >
-                Logout
-              </Link>
-            </Button>
-          </HStack>
+          <Button size="sm">
+            <Link
+              href="/login"
+              onClick={async () => {
+                await localStorage.removeItem("userData");
+                await localStorage.removeItem("resData");
+              }}
+            >
+              Logout
+            </Link>
+          </Button>
         ) : (
           <HStack as="nav" spacing={3}>
             <Button size="sm">

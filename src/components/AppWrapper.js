@@ -4,7 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CheckValidty from "../PrivateRoute/CheckValid";
 import Sidebar from "./SideBar";
 import Unauthorized from "../pages/unauthorized";
-import { useBreakpointValue, Image, Text, Center } from "@chakra-ui/react";
+import {
+  useBreakpointValue,
+  Image,
+  Text,
+  Center,
+  Container,
+} from "@chakra-ui/react";
 import { Box } from "@chakra-ui/layout";
 import Header from "./Header";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -56,7 +62,9 @@ const AppWrapper = () => {
                 }
                 headPosition="start"
               />
-              <LandPage />
+              <Container>
+                <LandPage />
+              </Container>
             </>
           }
         />
@@ -88,14 +96,12 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text fontSize="lg" fontWeight="bold" p={2}>
-                      Home
-                    </Text>
-                  }
+                  Page_Header="Hello"
                   headPosition="start"
                 />
-                <Home />
+                <Container>
+                  <Home />
+                </Container>
               </Box>
               <Sidebar
                 variant={variants?.navigation}
@@ -114,14 +120,12 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text fontSize="lg" fontWeight="bold" p={2}>
-                      Sheets
-                    </Text>
-                  }
+                  Page_Header="Here is your Sheets"
                   headPosition="start"
                 />
-                <Sheets />
+                <Container>
+                  <Sheets />
+                </Container>
               </Box>
               <Sidebar
                 variant={variants?.navigation}
@@ -139,14 +143,12 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text fontSize="lg" fontWeight="bold" p={2}>
-                      Statistics
-                    </Text>
-                  }
+                  Page_Header="It's your money Statistics"
                   headPosition="start"
                 />
-                <States />
+                <Container>
+                  <States />
+                </Container>
               </Box>
               <Sidebar
                 variant={variants?.navigation}
@@ -164,11 +166,7 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text fontSize="lg" fontWeight="bold" p={2}>
-                      Deadlines
-                    </Text>
-                  }
+                  Page_Header="Here You can set deadlines for your bills"
                   headPosition="start"
                 />
                 <Deadlins />
@@ -189,11 +187,7 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text fontSize="lg" fontWeight="bold" p={2}>
-                      Profile
-                    </Text>
-                  }
+                  Page_Header="Finally, It's your profile"
                   headPosition="start"
                 />
                 <Profile />

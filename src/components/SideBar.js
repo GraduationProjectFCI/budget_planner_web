@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, variant, onClose }) => {
       p={5}
       w="15rem"
       h="100%"
-      borderRight="1px solid rgba(0, 0, 0, 0.1)"
+      boxShadow=" 6px 0px 10px -9px rgba(0,0,0,0.3)"
     >
       <Box pb={3}>
         <Center>
