@@ -75,11 +75,11 @@ const Header = ({
       <Spacer />
       <Box>
         {isLoggedIn ? (
-          <HStack as="nav" spacing={3} align="stretch">
-            <Button>
+          <HStack as="nav" spacing={3}>
+            <Button size="sm">
               <Link to="/profile">{userData.user.name}</Link>
             </Button>
-            <Button>
+            <Button size="sm">
               <Link
                 to="/login"
                 onClick={() => {
@@ -92,12 +92,12 @@ const Header = ({
             </Button>
           </HStack>
         ) : (
-          <HStack as="nav" spacing={3} align="stretch">
-            <Button>
+          <HStack as="nav" spacing={3}>
+            <Button size="sm">
               <Link to="/login">Login</Link>
             </Button>
 
-            <Button>
+            <Button size="sm">
               <Link to="/login">Register</Link>
             </Button>
           </HStack>
