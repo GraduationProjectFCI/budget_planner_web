@@ -32,7 +32,20 @@ const AppWrapper = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandPage />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Header
+                showSidebarButton={false}
+                onShowSidebar={toggleSidebar}
+                Page_Header="Budget Planner"
+                headPosition="start"
+              />
+              <LandPage />
+            </>
+          }
+        />
         <Route
           path="/register"
           element={
@@ -62,6 +75,7 @@ const AppWrapper = () => {
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header="Home"
+                  headPosition="start"
                 />
                 <Home />
               </Box>
@@ -83,6 +97,7 @@ const AppWrapper = () => {
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header="Sheets"
+                  headPosition="start"
                 />
                 <Sheets />
               </Box>
@@ -103,6 +118,7 @@ const AppWrapper = () => {
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header="Statistics"
+                  headPosition="start"
                 />
                 <States />
               </Box>
@@ -123,6 +139,7 @@ const AppWrapper = () => {
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header="Deadlines"
+                  headPosition="start"
                 />
                 <Deadlins />
               </Box>
@@ -143,6 +160,7 @@ const AppWrapper = () => {
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header="Profile"
+                  headPosition="start"
                 />
                 <Profile />
               </Box>
