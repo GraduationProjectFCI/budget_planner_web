@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 import { GoThreeBars } from "react-icons/go";
-
 import { Link } from "react-router-dom";
 
 const Header = ({
@@ -38,19 +37,13 @@ const Header = ({
 
   if (!userData) {
     <Center>
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="teal.500"
-        size="xl"
-      />
+      <Spinner emptyColor="gray.200" color="teal.500" size="lg" />
     </Center>;
   }
 
   return (
     <Flex
-      p={4}
+      p={2}
       color="black"
       justifyContent="center"
       alignItems="center"
@@ -66,11 +59,7 @@ const Header = ({
           />
         )}
       </Box>
-      <Box textAlign={headPosition} w="100%">
-        <Text fontSize="lg" fontWeight="bold">
-          {Page_Header}
-        </Text>
-      </Box>
+      <Box textAlign={headPosition}>{Page_Header}</Box>
 
       <Spacer />
       <Box>

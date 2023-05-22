@@ -1,10 +1,10 @@
-import React from "react";
+import { useState } from "react";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CheckValidty from "../PrivateRoute/CheckValid";
 import Sidebar from "./SideBar";
 import Unauthorized from "../pages/unauthorized";
-import { useState } from "react";
-import { useBreakpointValue } from "@chakra-ui/react";
+import { useBreakpointValue, Image, Text, Center } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/layout";
 import Header from "./Header";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -19,6 +19,8 @@ import States from "../pages/states";
 import Deadlins from "../pages/deadlines";
 import MailConfirmation from "../pages/EmailConf";
 import LandPage from "../pages/landPage";
+
+import Wallet from "../assets/Wallet.png";
 
 const smVariant = { navigation: "drawer", navigationButton: true };
 const mdVariant = { navigation: "sidebar", navigationButton: false };
@@ -39,7 +41,19 @@ const AppWrapper = () => {
               <Header
                 showSidebarButton={false}
                 onShowSidebar={toggleSidebar}
-                Page_Header="Budget Planner"
+                Page_Header={
+                  <Center>
+                    <Image
+                      src={Wallet}
+                      alt="Wallet"
+                      boxSize="2.5rem"
+                      display="inline-block"
+                    />
+                    <Text fontSize="lg" fontWeight="bold">
+                      Budget Planner
+                    </Text>
+                  </Center>
+                }
                 headPosition="start"
               />
               <LandPage />
@@ -74,7 +88,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Home"
+                  Page_Header={
+                    <Text fontSize="lg" fontWeight="bold" p={2}>
+                      Home
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Home />
@@ -96,7 +114,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Sheets"
+                  Page_Header={
+                    <Text fontSize="lg" fontWeight="bold" p={2}>
+                      Sheets
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Sheets />
@@ -117,7 +139,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Statistics"
+                  Page_Header={
+                    <Text fontSize="lg" fontWeight="bold" p={2}>
+                      Statistics
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <States />
@@ -138,7 +164,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Deadlines"
+                  Page_Header={
+                    <Text fontSize="lg" fontWeight="bold" p={2}>
+                      Deadlines
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Deadlins />
@@ -159,7 +189,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Profile"
+                  Page_Header={
+                    <Text fontSize="lg" fontWeight="bold" p={2}>
+                      Profile
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Profile />
