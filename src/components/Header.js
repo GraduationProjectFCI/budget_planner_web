@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
-  Text,
   Flex,
   Spacer,
   HStack,
@@ -87,7 +86,7 @@ const Header = ({
             </Button>
 
             <Button size="sm">
-              <Link to="/login">Register</Link>
+              <Link to="/register">Register</Link>
             </Button>
           </HStack>
         )}
