@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { AuthWrapper } from "../components/AuthWrapper";
 import {
   Box,
@@ -17,25 +17,46 @@ import { useNavigate } from "react-router-dom";
 
 import http from "../connection/connect";
 
-const ForgotPassword = () => {
+const MailConfirmation = () => {
+  const navigate = useNavigate();
   const toast = useToast();
+
+  const [user_id, setUser_id] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   //form state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [code, setCode] = useState("");
 
-  var isMatch = password !== confirmPassword;
   //error state
   const [err, setError] = useState("");
 
+  useEffect(() => {
+    const resData = JSON.parse(localStorage.getItem("resData"));
+    if (resData) {
+      setUser_id(resData.user_id);
+    }
+  }, []);
+
+  if (!user_id) {
+    return (
+      <AuthWrapper header="Alert">
+        <Divider />
+
+        <Center>Type the Confirmation code that sent to your mail</Center>
+
+        <Center mt={3}>
+          <Link href="/register" textAlign="center">
+            <Button>Back to Register?</Button>
+          </Link>
+        </Center>
+      </AuthWrapper>
+    );
+  }
+
   //form values
   const formValues = {
-    email,
-    password,
+    user_id,
+    code,
   };
 
   //form submit
@@ -45,19 +66,21 @@ const ForgotPassword = () => {
     setError("");
 
     try {
-      const response = await http.post("/auth/forget-password", formValues);
+      const response = await http.post("/auth/confirmation", formValues);
 
-      if (response.status === 200) {
+      if (response.data.status === 200) {
         setLoading(false);
+
+        //store the token locally
+        await localStorage.setItem("userData", JSON.stringify(response.data));
         toast({
-          title: "Success",
-          description: response.data.msg,
+          title: "Mail Confirmed",
           status: "success",
           duration: 9000,
           isClosable: true,
         });
 
-        navigate("/login");
+        navigate("/home");
       }
     } catch (error) {
       if (error.response) {
@@ -72,53 +95,30 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <AuthWrapper header="Forgot Password">
+      <AuthWrapper header="Confirm Email">
         <Divider />
 
         <form onSubmit={handleSubmit}>
           <FormControl pt={4}>
-            <FormHelperText>
-              Forgotten your password? Enter your e-mail address below, and
-              we'll send you an e-mail allowing you to reset it.
-            </FormHelperText>
+            <Center>
+              <FormHelperText>
+                Type the Confirmation code that sent to your mail
+              </FormHelperText>
+            </Center>
 
             <Input
               mt={5}
-              placeholder="Email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Confirmation code"
+              type="number"
+              onChange={(e) => setCode(e.target.value)}
             />
-
-            <Input
-              mt={5}
-              id="password"
-              placeholder="Password"
-              type="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-
-            <Input
-              mt={5}
-              id="confirmPassword"
-              placeholder="Confirm Password"
-              type="password"
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
-            />
-
-            <Box mb={3} color="red.500">
-              {isMatch ? "Passwords do not match" : null}
-            </Box>
 
             <Button type="submit" width="100%" textColor="white" mt={5}>
-              Reset my password
+              Confirm
             </Button>
 
             <Center>
-              {isLoading && <Spinner color="teal.500" size="md" m={3} />}
+              {isLoading && <Spinner mt={5} color="teal.500" size="md" />}
               {typeof err === "string" ? (
                 <Box color="red.500" mt={3}>
                   {err}
@@ -133,11 +133,7 @@ const ForgotPassword = () => {
                 )
               )}
             </Center>
-            <Center mt={3}>
-              <Link href="/register" textAlign="center">
-                Don't have an account? Register
-              </Link>
-            </Center>
+
             <Center mt={3}>
               <Link href="/login" textAlign="center">
                 Back to Login?
@@ -150,4 +146,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default MailConfirmation;

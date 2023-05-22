@@ -9,6 +9,7 @@ import {
   Link,
   Divider,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -17,8 +18,9 @@ import http from "../connection/connect";
 
 const Login = () => {
   const toast = useToast();
-
   const navigate = useNavigate();
+
+  const [isLoading, setLoading] = useState(false);
 
   //form state
   const [email, setEmail] = useState("");
@@ -36,12 +38,14 @@ const Login = () => {
   //form submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       const response = await http.post("/auth/login", formValues);
-
       if (response.status === 200) {
-        localStorage.setItem("userData", JSON.stringify(response.data));
+        setLoading(false);
+        await localStorage.setItem("userData", JSON.stringify(response.data));
 
         toast({
           title: "Login Successful",
@@ -50,14 +54,17 @@ const Login = () => {
           duration: 9000,
           isClosable: true,
         });
-        navigate("/");
+        navigate("/home");
       } else {
+        setLoading(false);
         setError(response.data.msg);
       }
     } catch (error) {
       if (error.response) {
+        setLoading(false);
         setError(error.response.data.msg);
       } else {
+        setLoading(false);
         setError("Something went wrong. Please try again later.");
       }
     }
@@ -89,6 +96,7 @@ const Login = () => {
           </Button>
 
           <Center>
+            {isLoading && <Spinner color="teal.500" size="md" m={3} />}
             {typeof err === "string" ? (
               <Box color="red.500" mt={3}>
                 {err}

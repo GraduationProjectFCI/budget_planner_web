@@ -1,9 +1,10 @@
 import React from "react";
 import { Divider, Text, Center, Button, VStack } from "@chakra-ui/react";
 import { AuthWrapper } from "../components/AuthWrapper";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CheckValidty = ({ children }) => {
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userData"));
   return (
     <div>
@@ -16,9 +17,13 @@ const CheckValidty = ({ children }) => {
                 You are already logged in.
               </Text>
 
-              <Link href="/">
-                <Button m={2}>Back to Home</Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  navigate("/home");
+                }}
+              >
+                Back to Home
+              </Button>
             </VStack>
           </Center>
         </AuthWrapper>

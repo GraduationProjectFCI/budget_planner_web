@@ -10,6 +10,7 @@ import {
   Input,
   Link,
   HStack,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
@@ -21,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const toast = useToast();
   const navigate = useNavigate();
+
+  const [isLoading, setLoading] = useState(false);
 
   //form state
   const [name, setName] = useState("");
@@ -52,30 +55,34 @@ const Register = () => {
   //form submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErr("");
+
     if (!isMatch) {
       try {
         const response = await http.post("/auth/register", formValues);
         if (response.status === 200) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
+          setLoading(false);
+          await localStorage.setItem("resData", JSON.stringify(response.data));
 
           toast({
             title: "Account created.",
             description: "We've created your account for you.",
             status: "success",
-            duration: 5000,
+            duration: 9000,
             isClosable: true,
           });
-        }
 
-        navigate("/");
+          navigate("/confirm-email");
+        }
       } catch (error) {
         if (error.response) {
+          setLoading(false);
           setErr(error.response.data.msg);
         } else {
+          setLoading(false);
           setErr("Something went wrong. Please try again later.");
         }
-
-        console.log(error.response.data.msg);
       }
     }
   };
@@ -176,6 +183,7 @@ const Register = () => {
               </Button>
             </Center>
             <Center>
+              {isLoading && <Spinner color="teal.500" size="md" m={3} />}
               {typeof err === "string" ? (
                 <Box color="red.500" mt={3}>
                   {err}
