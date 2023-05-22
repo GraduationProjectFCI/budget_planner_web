@@ -55,7 +55,7 @@ const AppWrapper = () => {
                       boxSize="2.5rem"
                       display="inline-block"
                     />
-                    <Text fontSize="lg" fontWeight="bold">
+                    <Text as="span" fontSize="lg" fontWeight="bold">
                       Budget Planner
                     </Text>
                   </Center>
@@ -96,7 +96,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Hello"
+                  Page_Header={
+                    <Text as="span" fontSize="lg" fontWeight="bold">
+                      Welcome to Budget Planner,
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Container>
@@ -120,7 +124,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Here is your Sheets"
+                  Page_Header={
+                    <Text as="span" fontSize="lg" fontWeight="bold">
+                      Here is your Sheets,
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Container>
@@ -143,7 +151,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="It's your money Statistics"
+                  Page_Header={
+                    <Text as="span" fontSize="lg" fontWeight="bold">
+                      Here is your Statistics,
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Container>
@@ -166,7 +178,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Here You can set deadlines for your bills"
+                  Page_Header={
+                    <Text as="span" fontSize="lg" fontWeight="bold">
+                      Here you can set deadlines for your bills,
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Deadlins />
@@ -187,7 +203,11 @@ const AppWrapper = () => {
                 <Header
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
-                  Page_Header="Finally, It's your profile"
+                  Page_Header={
+                    <Text as="span" fontSize="lg" fontWeight="bold">
+                      Finally, It's your profile,
+                    </Text>
+                  }
                   headPosition="start"
                 />
                 <Profile />

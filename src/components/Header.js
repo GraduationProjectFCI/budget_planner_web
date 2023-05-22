@@ -52,11 +52,10 @@ const Header = ({
         )}
       </Box>
       <Box textAlign={headPosition}>
-        <Text
-          fontSize="lg"
-          fontWeight="bold"
-          p={2}
-        >{`${Page_Header}${" "} ${userName}`}</Text>
+        {Page_Header}
+        <Text as="span" fontSize="lg" fontWeight="bold">
+          {userName ? `${" "} ${userName}` : null}
+        </Text>
       </Box>
 
       <Spacer />
