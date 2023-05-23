@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   CircularProgress,
   CircularProgressLabel,
-  Box,
   Text,
   Center,
 } from "@chakra-ui/react";
@@ -13,7 +12,6 @@ const CircularProgressBar = ({ percentage, duration, details }) => {
   const progressBarSize = "30rem";
   const fontWeightBold = "bold";
   const fontSize6xl = "6xl";
-  const fontColorGray600 = "#666";
   const TrailColor = "#dddddd";
 
   useEffect(() => {

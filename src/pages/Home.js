@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Text,
   Box,
@@ -46,6 +46,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
     const getUserData = async () => {
       try {
         const userData = JSON.parse(localStorage.getItem("userData"));
+
         const response = await http.get("/app/user-data", {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
@@ -70,57 +71,58 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
     getUserData();
   }, [setTriggerAction, toast]);
 
+  const handleAddingLimit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setError("");
+
+      const formValues = {
+        label,
+        limit,
+      };
+
+      try {
+        const response = await http.post("/app/limits", formValues, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("userData"))?.token
+            }`,
+          },
+        });
+
+        if (response.status === 200) {
+          setLoading(false);
+          toast({
+            title: "Success",
+            description: response.data.msg,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          setTriggerAction(true);
+          closeModal();
+        }
+      } catch (error) {
+        if (error.response) {
+          setLoading(false);
+          setError(error.response.data.errorLog);
+        } else {
+          setLoading(false);
+          setError("Something went wrong. Please try again later.");
+        }
+      }
+    },
+    [label, limit, setTriggerAction, toast]
+  );
+
   if (!user) {
     return <Loader />;
   }
-
   const { spent, remaining, total } = user;
 
   const progressPercentage = (spent / total) * 100;
   const animationDurationInMs = 1500;
-
-  const handleAddingLimit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    const formValues = {
-      label,
-      limit,
-    };
-
-    try {
-      const response = await http.post("/app/limits", formValues, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userData"))?.token
-          }`,
-        },
-      });
-
-      if (response.status === 200) {
-        setLoading(false);
-        toast({
-          title: "Success",
-          description: response.data.msg,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-        setTriggerAction(true);
-        closeModal();
-      }
-    } catch (error) {
-      if (error.response) {
-        setLoading(false);
-        setError(error.response.data.errorLog);
-      } else {
-        setLoading(false);
-        setError("Something went wrong. Please try again later.");
-      }
-    }
-  };
-
   return (
     <>
       <CustomModal
@@ -151,25 +153,20 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
             />
           </FormControl>
 
-          {error ? (
-            typeof err === "string" ? (
-              <Box color="red.500" mt={3}>
-                {error}
-              </Box>
-            ) : error.length > 0 ? (
-              <Box color="red.500" mt={3} textAlign="center">
-                {error.map((error) => {
+          {error && (
+            <Box color="red.500" mt={3} textAlign="center">
+              {typeof error === "string" ? (
+                <p>{error}</p>
+              ) : error.length > 0 ? (
+                error.map((error) => {
                   return <p key={error}>{error}</p>;
-                })}
-              </Box>
-            ) : (
-              <>
-                <Box color="red.500" mt={3} textAlign="center">
-                  {error}
-                </Box>
-              </>
-            )
-          ) : null}
+                })
+              ) : (
+                <p>{error}</p>
+              )}
+            </Box>
+          )}
+
           <HStack
             mt={5}
             justifyContent="end"
