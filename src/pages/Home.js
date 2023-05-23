@@ -10,19 +10,19 @@ import {
   Select,
   useToast,
   HStack,
+  Card,
 } from "@chakra-ui/react";
 
 import ProgressbarComponent from "../components/Progressbar";
 import http from "../connection/connect";
-import Loader from "../components/Loader";
 
 import CustomModal from "../modals/customModal";
 import LimitList from "../components/LimitList";
+import Loader from "../components/Loader";
 
 const Home = ({ triggerAction, setTriggerAction, labels }) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [limits, setLimits] = useState();
 
   const toast = useToast();
   //form states
@@ -67,39 +67,12 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
       }
     };
 
-    const getUserLimits = async () => {
-      try {
-        const userData = JSON.parse(localStorage.getItem("userData"));
-        const response = await http.get("/app/limits", {
-          headers: { Authorization: `Bearer ${userData?.token}` },
-        });
-        setLimits(response.data.limits);
-      } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.errorLog
-        ) {
-          toast({
-            title: "Error",
-            description: error.response.data.errorLog,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
-      }
-    };
+    getUserData();
+  }, [setTriggerAction, toast]);
 
-    if (!triggerAction) {
-      getUserData();
-      getUserLimits();
-    }
-
-    if (triggerAction !== false) setTriggerAction(false);
-  }, [triggerAction, setTriggerAction, toast]);
-
-  if (!user || !limits) return <Loader />;
+  if (!user) {
+    return <Loader />;
+  }
 
   const { spent, remaining, total } = user;
 
@@ -127,7 +100,6 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
 
       if (response.status === 200) {
         setLoading(false);
-
         toast({
           title: "Success",
           description: response.data.msg,
@@ -135,7 +107,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           duration: 9000,
           isClosable: true,
         });
-
+        setTriggerAction(true);
         closeModal();
       }
     } catch (error) {
@@ -257,10 +229,20 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
             </Button>
           </Box>
         </Flex>
-        <LimitList
-          triggerAction={triggerAction}
-          setTriggerAction={setTriggerAction}
-        />
+        <Card
+          bgColor={"#e5e5e5"}
+          minH={"10rem"}
+          boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)"
+          p={4}
+          borderRadius="md"
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <LimitList
+            triggerAction={triggerAction}
+            setTriggerAction={setTriggerAction}
+          />
+        </Card>
       </Box>
     </>
   );
