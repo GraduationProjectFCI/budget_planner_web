@@ -10,10 +10,6 @@ import {
   Select,
   useToast,
   HStack,
-  Stack,
-  Card,
-  CardBody,
-  Heading,
 } from "@chakra-ui/react";
 
 import ProgressbarComponent from "../components/Progressbar";
@@ -21,8 +17,13 @@ import http from "../connection/connect";
 import Loader from "../components/Loader";
 
 import CustomModal from "../modals/customModal";
+import LimitList from "../components/LimitList";
 
 const Home = ({ triggerAction, setTriggerAction, labels }) => {
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [limits, setLimits] = useState();
+
   const toast = useToast();
   //form states
   const [label, setLabel] = useState("");
@@ -35,13 +36,11 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
 
   // modal handlers
   const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setError("");
 
-  const [error, setError] = useState();
-
-  const [isLoading, setLoading] = useState(false);
-
-  const [limits, setLimits] = useState();
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -52,16 +51,44 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
         });
         setUser(response.data.data);
       } catch (error) {
-        console.error(error);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errorLog
+        ) {
+          toast({
+            title: "Error",
+            description: error.response.data.errorLog,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
       }
     };
 
     const getUserLimits = async () => {
-      const userData = JSON.parse(localStorage.getItem("userData"));
-      const response = await http.get("/app/limits", {
-        headers: { Authorization: `Bearer ${userData?.token}` },
-      });
-      setLimits(response.data.limits);
+      try {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const response = await http.get("/app/limits", {
+          headers: { Authorization: `Bearer ${userData?.token}` },
+        });
+        setLimits(response.data.limits);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errorLog
+        ) {
+          toast({
+            title: "Error",
+            description: error.response.data.errorLog,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      }
     };
 
     if (!triggerAction) {
@@ -70,7 +97,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
     }
 
     if (triggerAction !== false) setTriggerAction(false);
-  }, [triggerAction, setTriggerAction]);
+  }, [triggerAction, setTriggerAction, toast]);
 
   if (!user || !limits) return <Loader />;
 
@@ -79,7 +106,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
   const progressPercentage = (spent / total) * 100;
   const animationDurationInMs = 1500;
 
-  const handleSubmit = async (e) => {
+  const handleAddingLimit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -98,7 +125,6 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
         },
       });
 
-      console.log(response);
       if (response.status === 200) {
         setLoading(false);
 
@@ -123,8 +149,6 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
     }
   };
 
-  console.log(limits);
-
   return (
     <>
       <CustomModal
@@ -133,7 +157,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
         setTriggerAction={setTriggerAction}
         modalHeader="Add Limit"
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleAddingLimit}>
           <Select
             placeholder="Select Label"
             onChange={(e) => {
@@ -189,7 +213,12 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
             >
               Add Limit
             </Button>
-            <Button me={3} onClick={closeModal}>
+            <Button
+              me={3}
+              onClick={closeModal}
+              isDisabled={isLoading ? true : false}
+              colorScheme="teal"
+            >
               Cancel
             </Button>
           </HStack>
@@ -211,7 +240,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           />
         </Box>
 
-        <Flex p={2} color="black" justifyContent="center" alignItems="center">
+        <Flex p={4} color="black" justifyContent="center" alignItems="center">
           <Text as="span" fontSize="lg" fontWeight="bold" color="black">
             Monthly Limits
           </Text>
@@ -228,39 +257,10 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
             </Button>
           </Box>
         </Flex>
-
-        <Card>
-          <CardBody>
-            <Stack spacing="4">
-              {limits.map((limit, index) => {
-                return (
-                  <Card
-                    key={index}
-                    p={3}
-                    boxShadow="md"
-                    _hover="shadow-lg"
-                    cursor="pointer"
-                    onClick={() => {
-                      openModal();
-                    }}
-                  >
-                    <Flex
-                      key={index}
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Heading as="h6" size="sm">
-                        {limit.label}
-                      </Heading>
-                      <Text>{limit.createdAt}</Text>
-                      <Text>{limit.limit}</Text>
-                    </Flex>
-                  </Card>
-                );
-              })}
-            </Stack>
-          </CardBody>
-        </Card>
+        <LimitList
+          triggerAction={triggerAction}
+          setTriggerAction={setTriggerAction}
+        />
       </Box>
     </>
   );
