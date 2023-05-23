@@ -10,7 +10,6 @@ import {
   Input,
   Link,
   HStack,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { useToast } from "@chakra-ui/react";
@@ -61,6 +60,7 @@ const Register = () => {
     if (!isMatch) {
       try {
         const response = await http.post("/auth/register", formValues);
+
         if (response.status === 200) {
           setLoading(false);
           await localStorage.setItem("resData", JSON.stringify(response.data));
@@ -178,12 +178,18 @@ const Register = () => {
             </Box>
 
             <Center>
-              <Button type="submit" width="100%" textColor="white">
+              <Button
+                isLoading={isLoading}
+                loadingText="Loading.."
+                colorScheme="teal"
+                type="submit"
+                width="100%"
+                textColor="white"
+              >
                 Register
               </Button>
             </Center>
             <Center>
-              {isLoading && <Spinner color="teal.500" size="md" m={3} />}
               {typeof err === "string" ? (
                 <Box color="red.500" mt={3}>
                   {err}

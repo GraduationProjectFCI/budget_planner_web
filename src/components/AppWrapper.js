@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CheckValidty from "../PrivateRoute/CheckValid";
@@ -22,17 +22,37 @@ import Home from "../pages/Home";
 import Profile from "../pages/profile";
 import Sheets from "../pages/sheets";
 import States from "../pages/states";
-import Deadlins from "../pages/deadlines";
+import Deadlines from "../pages/deadlines";
 import MailConfirmation from "../pages/EmailConf";
 import LandPage from "../pages/landPage";
 
 import Wallet from "../assets/Wallet.png";
+
+import http from "../connection/connect";
 
 const smVariant = { navigation: "drawer", navigationButton: true };
 const mdVariant = { navigation: "sidebar", navigationButton: false };
 
 const AppWrapper = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [triggerAction, setTriggerAction] = useState(false);
+
+  const [labels, setLabels] = useState();
+
+  useEffect(() => {
+    const getUserLabels = async () => {
+      const response = await http.get("/app/labels", {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("userData"))?.token
+          }`,
+        },
+      });
+      setLabels(response.data.data);
+    };
+    getUserLabels();
+  }, []);
+
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
@@ -47,6 +67,7 @@ const AppWrapper = () => {
               <Header
                 showSidebarButton={false}
                 onShowSidebar={toggleSidebar}
+                showName={false}
                 Page_Header={
                   <Center>
                     <Image
@@ -56,13 +77,13 @@ const AppWrapper = () => {
                       display="inline-block"
                     />
                     <Text as="span" fontSize="lg" fontWeight="bold">
-                      Budget Planner
+                      Welcome to Budget Planner
                     </Text>
                   </Center>
                 }
                 headPosition="start"
               />
-              <Container>
+              <Container maxW="container.xl">
                 <LandPage />
               </Container>
             </>
@@ -94,17 +115,22 @@ const AppWrapper = () => {
             <PrivateRoute>
               <Box ml={!variants?.navigationButton && "15rem"}>
                 <Header
+                  showName={true}
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header={
                     <Text as="span" fontSize="lg" fontWeight="bold">
-                      Welcome to Budget Planner,
+                      Hello
                     </Text>
                   }
                   headPosition="start"
                 />
-                <Container>
-                  <Home />
+                <Container maxW="container.xl">
+                  <Home
+                    triggerAction={triggerAction}
+                    setTriggerAction={setTriggerAction}
+                    labels={labels}
+                  />
                 </Container>
               </Box>
               <Sidebar
@@ -122,6 +148,7 @@ const AppWrapper = () => {
             <PrivateRoute>
               <Box ml={!variants?.navigationButton && "15rem"}>
                 <Header
+                  showName={true}
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header={
@@ -131,8 +158,12 @@ const AppWrapper = () => {
                   }
                   headPosition="start"
                 />
-                <Container>
-                  <Sheets />
+                <Container maxW="container.xl">
+                  <Sheets
+                    triggerAction={triggerAction}
+                    setTriggerAction={setTriggerAction}
+                    labels={labels}
+                  />
                 </Container>
               </Box>
               <Sidebar
@@ -149,6 +180,7 @@ const AppWrapper = () => {
             <PrivateRoute>
               <Box ml={!variants?.navigationButton && "15rem"}>
                 <Header
+                  showName={true}
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header={
@@ -158,7 +190,7 @@ const AppWrapper = () => {
                   }
                   headPosition="start"
                 />
-                <Container>
+                <Container maxW="container.xl">
                   <States />
                 </Container>
               </Box>
@@ -176,16 +208,23 @@ const AppWrapper = () => {
             <PrivateRoute>
               <Box ml={!variants?.navigationButton && "15rem"}>
                 <Header
+                  showName={true}
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header={
                     <Text as="span" fontSize="lg" fontWeight="bold">
-                      Here you can set deadlines for your bills,
+                      Here set deadlines for your bills,
                     </Text>
                   }
                   headPosition="start"
                 />
-                <Deadlins />
+                <Container maxW="container.xl">
+                  <Deadlines
+                    triggerAction={triggerAction}
+                    setTriggerAction={setTriggerAction}
+                    labels={labels}
+                  />
+                </Container>
               </Box>
               <Sidebar
                 variant={variants?.navigation}
@@ -201,6 +240,7 @@ const AppWrapper = () => {
             <PrivateRoute>
               <Box ml={!variants?.navigationButton && "15rem"}>
                 <Header
+                  showName={true}
                   showSidebarButton={variants?.navigationButton}
                   onShowSidebar={toggleSidebar}
                   Page_Header={
@@ -210,7 +250,12 @@ const AppWrapper = () => {
                   }
                   headPosition="start"
                 />
-                <Profile />
+                <Container maxW="container.xl">
+                  <Profile
+                    triggerAction={triggerAction}
+                    setTriggerAction={setTriggerAction}
+                  />
+                </Container>
               </Box>
               <Sidebar
                 variant={variants?.navigation}

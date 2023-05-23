@@ -10,7 +10,6 @@ import {
   Divider,
   FormHelperText,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -115,12 +114,19 @@ const ForgotPassword = () => {
               {isMatch ? "Passwords do not match" : null}
             </Box>
 
-            <Button type="submit" width="100%" textColor="white" mt={5}>
-              Reset my password
+            <Button
+              type="submit"
+              width="100%"
+              textColor="white"
+              mt={5}
+              isLoading={isLoading}
+              loadingText="Loading.."
+              colorScheme="teal"
+            >
+              Reset password
             </Button>
 
             <Center>
-              {isLoading && <Spinner color="teal.500" size="md" m={3} />}
               {typeof err === "string" ? (
                 <Box color="red.500" mt={3}>
                   {err}

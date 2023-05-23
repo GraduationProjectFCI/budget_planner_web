@@ -9,7 +9,6 @@ import {
   Link,
   Divider,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -91,12 +90,19 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button type="submit" width="100%" textColor="white" mt={5}>
+          <Button
+            isLoading={isLoading}
+            loadingText="Loading.."
+            colorScheme="teal"
+            type="submit"
+            width="100%"
+            textColor="white"
+            mt={5}
+          >
             Login
           </Button>
 
           <Center>
-            {isLoading && <Spinner color="teal.500" size="md" m={3} />}
             {typeof err === "string" ? (
               <Box color="red.500" mt={3}>
                 {err}

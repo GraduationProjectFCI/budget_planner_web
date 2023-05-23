@@ -20,6 +20,7 @@ const Header = ({
   onShowSidebar,
   Page_Header,
   headPosition,
+  showName,
 }) => {
   const [isLoggedIn, setLoggedIn] = useState();
   const [userName, setUserName] = useState();
@@ -53,25 +54,32 @@ const Header = ({
       </Box>
       <Box textAlign={headPosition}>
         {Page_Header}
-        <Text as="span" fontSize="lg" fontWeight="bold">
-          {userName ? `${" "} ${userName}` : null}
-        </Text>
+        {showName && (
+          <Text as="span" fontSize="lg" fontWeight="bold">
+            {userName ? `${" "} ${userName}` : null}
+          </Text>
+        )}
       </Box>
 
       <Spacer />
       <Box>
         {isLoggedIn ? (
-          <Button size="sm">
-            <Link
-              href="/login"
-              onClick={async () => {
-                await localStorage.removeItem("userData");
-                await localStorage.removeItem("resData");
-              }}
-            >
-              Logout
+          <HStack>
+            <Button size="sm">
+              <Link to="/home">Go to Home</Link>
+            </Button>
+            <Link to="/login">
+              <Button
+                size="sm"
+                onClick={async () => {
+                  await localStorage.removeItem("userData");
+                  await localStorage.removeItem("resData");
+                }}
+              >
+                Logout
+              </Button>
             </Link>
-          </Button>
+          </HStack>
         ) : (
           <HStack as="nav" spacing={3}>
             <Button size="sm">

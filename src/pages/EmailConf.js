@@ -10,7 +10,6 @@ import {
   Divider,
   FormHelperText,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -113,12 +112,19 @@ const MailConfirmation = () => {
               onChange={(e) => setCode(e.target.value)}
             />
 
-            <Button type="submit" width="100%" textColor="white" mt={5}>
+            <Button
+              type="submit"
+              width="100%"
+              textColor="white"
+              mt={5}
+              isLoading={isLoading}
+              loadingText="Loading.."
+              colorScheme="teal"
+            >
               Confirm
             </Button>
 
             <Center>
-              {isLoading && <Spinner mt={5} color="teal.500" size="md" />}
               {typeof err === "string" ? (
                 <Box color="red.500" mt={3}>
                   {err}

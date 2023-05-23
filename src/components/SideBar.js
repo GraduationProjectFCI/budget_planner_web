@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, variant, onClose }) => {
             color="black"
             textAlign="center"
           >
-            <Link href="/">Budget Planner</Link>
+            <Link to="/">Budget Planner</Link>
           </Text>
         </Center>
       </Box>
