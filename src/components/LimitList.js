@@ -272,7 +272,17 @@ function LimitList({ triggerAction, setTriggerAction }) {
                       <Heading as="h6" size="sm">
                         {limit.label}
                       </Heading>
-                      <Text>
+                      <Text
+                        color={
+                          limit.value / limit.limit > 0.8
+                            ? "red.500"
+                            : limit.value / limit.limit > 0.5
+                            ? "yellow.500"
+                            : "green.500"
+                        }
+                        fontSize="md"
+                        fontWeight="bold"
+                      >
                         {
                           // take only 2 numbers after the dot
                           Math.round
@@ -285,14 +295,20 @@ function LimitList({ triggerAction, setTriggerAction }) {
                       </Text>
                     </HStack>
 
-                    <Box>
+                    <Text fontSize="sm" fontWeight="bold">
                       <Text>{`Limit : ${limit.limit}`}</Text>
                       <Text>{`Spent : ${limit.value}`}</Text>
-                    </Box>
+                    </Text>
                   </HStack>
 
                   <Progress
-                    colorScheme="teal"
+                    colorScheme={
+                      limit.value / limit.limit > 0.8
+                        ? "red"
+                        : limit.value / limit.limit > 0.5
+                        ? "yellow"
+                        : "green"
+                    }
                     size="sm"
                     value={limit.value}
                     max={limit.limit}

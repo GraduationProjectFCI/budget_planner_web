@@ -233,7 +233,6 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           bgColor={"#e5e5e5"}
           minH={"10rem"}
           boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)"
-          p={4}
           borderRadius="md"
           justifyContent={"center"}
           alignItems={"center"}
