@@ -65,9 +65,9 @@ const Header = ({
       <Box>
         {isLoggedIn ? (
           <HStack>
-            <Button size="sm">
-              <Link to="/home">Go to Home</Link>
-            </Button>
+            <Link to="/home">
+              <Button size="sm">Go to Home</Button>
+            </Link>
             <Link to="/login">
               <Button
                 size="sm"
@@ -82,13 +82,13 @@ const Header = ({
           </HStack>
         ) : (
           <HStack as="nav" spacing={3}>
-            <Button size="sm">
-              <Link to="/login">Login</Link>
-            </Button>
+            <Link to="/login">
+              <Button size="sm">Login</Button>
+            </Link>
 
-            <Button size="sm">
-              <Link to="/register">Register</Link>
-            </Button>
+            <Link to="/register">
+              <Button size="sm">Register</Button>
+            </Link>
           </HStack>
         )}
       </Box>

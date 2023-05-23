@@ -203,11 +203,16 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
             percentage={progressPercentage}
             duration={animationDurationInMs}
             details={
-              <Text>
+              <Box
+                textAlign="center"
+                fontSize="md"
+                fontWeight="6xl"
+                color="#666"
+              >
                 <Text fontWeight="bold">{spent} Spent </Text>
                 <Text fontWeight="bold">{remaining} Remaining </Text>
                 <Text fontWeight="bold">{total} Total Budget</Text>
-              </Text>
+              </Box>
             }
           />
         </Box>

@@ -295,10 +295,10 @@ function LimitList({ triggerAction, setTriggerAction }) {
                       </Text>
                     </HStack>
 
-                    <Text fontSize="sm" fontWeight="bold">
+                    <Box fontSize="sm" fontWeight="bold">
                       <Text>{`Limit : ${limit.limit}`}</Text>
                       <Text>{`Spent : ${limit.value}`}</Text>
-                    </Text>
+                    </Box>
                   </HStack>
 
                   <Progress

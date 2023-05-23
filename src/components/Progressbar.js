@@ -47,16 +47,8 @@ const CircularProgressBar = ({ percentage, duration, details }) => {
           fontSize={fontSize6xl}
           fontWeight={fontWeightBold}
         >
-          {progress}%
-          <Box textAlign="center">
-            <Text
-              fontSize="md"
-              fontWeight={fontWeightBold}
-              color={fontColorGray600}
-            >
-              {details}
-            </Text>
-          </Box>
+          <Text>{progress}%</Text>
+          {details}
         </CircularProgressLabel>
       </CircularProgress>
     </Center>

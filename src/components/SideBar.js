@@ -68,14 +68,16 @@ const Sidebar = ({ isOpen, variant, onClose }) => {
             boxSize="3rem"
             display="inline-block"
           />
-          <Text
-            fontSize="xl"
-            fontWeight="bold"
-            color="black"
-            textAlign="center"
-          >
-            <Link to="/">Budget Planner</Link>
-          </Text>
+          <Link to="/">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="black"
+              textAlign="center"
+            >
+              Budget Planner
+            </Text>
+          </Link>
         </Center>
       </Box>
       <Divider

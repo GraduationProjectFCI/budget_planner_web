@@ -50,8 +50,11 @@ const AppWrapper = () => {
       });
       setLabels(response.data.data);
     };
-    getUserLabels();
-  }, []);
+
+    if (!triggerAction) getUserLabels();
+
+    if (triggerAction !== false) setTriggerAction(false);
+  }, [triggerAction]);
 
   const variants = useBreakpointValue({ base: smVariant, md: mdVariant });
 
