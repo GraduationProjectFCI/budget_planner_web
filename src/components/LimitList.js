@@ -27,9 +27,9 @@ import http from "../connection/connect";
 function LimitList({ triggerAction, setTriggerAction }) {
   const [limits, setLimits] = useState(null);
   const [limit, setLimit] = useState();
-  const [error, setError] = useState();
   const [selectedItem, setItem] = useState();
 
+  const [error, setError] = useState();
   const [isLoading, setLoading] = useState();
 
   const [isOpen, setIsOpen] = useState(false);

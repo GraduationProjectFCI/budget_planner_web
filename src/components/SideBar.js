@@ -16,9 +16,16 @@ import {
 
 import Wallet from "../assets/Wallet.png";
 
+import LabelsButton from "./Labels";
+
 import { Link } from "react-router-dom";
 
-const SidebarContent = ({ onClick }) => (
+const SidebarContent = ({
+  onClick,
+  triggerAction,
+  setTriggerAction,
+  labels,
+}) => (
   <VStack as="nav" spacing={3} align="stretch" pt={2}>
     <Link to="/home">
       <Button w="full" onClick={onClick}>
@@ -47,10 +54,23 @@ const SidebarContent = ({ onClick }) => (
         Profile
       </Button>
     </Link>
+
+    <LabelsButton
+      triggerAction={triggerAction}
+      setTriggerAction={setTriggerAction}
+      labels={labels}
+    />
   </VStack>
 );
 
-const Sidebar = ({ isOpen, variant, onClose }) => {
+const Sidebar = ({
+  isOpen,
+  variant,
+  onClose,
+  triggerAction,
+  setTriggerAction,
+  labels,
+}) => {
   return variant === "sidebar" ? (
     <Box
       position="fixed"
@@ -87,7 +107,12 @@ const Sidebar = ({ isOpen, variant, onClose }) => {
         borderColor="blackAlpha.400"
         borderStyle="solid"
       />
-      <SidebarContent onClick={onClose} />
+      <SidebarContent
+        onClick={onClose}
+        triggerAction={triggerAction}
+        setTriggerAction={setTriggerAction}
+        labels={labels}
+      />
     </Box>
   ) : (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
@@ -105,7 +130,12 @@ const Sidebar = ({ isOpen, variant, onClose }) => {
             Budget Planner
           </DrawerHeader>
           <DrawerBody>
-            <SidebarContent onClick={onClose} />
+            <SidebarContent
+              onClick={onClose}
+              triggerAction={triggerAction}
+              setTriggerAction={setTriggerAction}
+              labels={labels}
+            />
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>

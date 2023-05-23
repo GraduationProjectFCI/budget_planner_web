@@ -140,6 +140,9 @@ const AppWrapper = () => {
                 variant={variants?.navigation}
                 isOpen={isSidebarOpen}
                 onClose={toggleSidebar}
+                triggerAction={triggerAction}
+                setTriggerAction={setTriggerAction}
+                labels={labels}
               />
             </PrivateRoute>
           }
@@ -173,6 +176,9 @@ const AppWrapper = () => {
                 variant={variants?.navigation}
                 isOpen={isSidebarOpen}
                 onClose={toggleSidebar}
+                triggerAction={triggerAction}
+                setTriggerAction={setTriggerAction}
+                labels={labels}
               />
             </PrivateRoute>
           }
@@ -201,6 +207,9 @@ const AppWrapper = () => {
                 variant={variants?.navigation}
                 isOpen={isSidebarOpen}
                 onClose={toggleSidebar}
+                triggerAction={triggerAction}
+                setTriggerAction={setTriggerAction}
+                labels={labels}
               />
             </PrivateRoute>
           }
@@ -230,9 +239,12 @@ const AppWrapper = () => {
                 </Container>
               </Box>
               <Sidebar
+                triggerAction={triggerAction}
+                setTriggerAction={setTriggerAction}
                 variant={variants?.navigation}
                 isOpen={isSidebarOpen}
                 onClose={toggleSidebar}
+                labels={labels}
               />
             </PrivateRoute>
           }
@@ -264,6 +276,9 @@ const AppWrapper = () => {
                 variant={variants?.navigation}
                 isOpen={isSidebarOpen}
                 onClose={toggleSidebar}
+                triggerAction={triggerAction}
+                setTriggerAction={setTriggerAction}
+                labels={labels}
               />
             </PrivateRoute>
           }
