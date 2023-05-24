@@ -12,7 +12,6 @@ import {
   Input,
   Spinner,
   Center,
-  MenuGroup,
   useToast,
 } from "@chakra-ui/react";
 
@@ -191,39 +190,21 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
           Labels
         </MenuButton>
         <MenuList>
-          <MenuGroup>
-            <MenuItem
-              icon={
-                <Button
-                  onClick={openModal}
-                  colorScheme="teal"
-                  size="sm"
-                  variant={"transparent"}
-                  color="teal.500"
-                >
-                  <AddIcon />
-                </Button>
-              }
-            >
-              Add New Label
-            </MenuItem>
-          </MenuGroup>
+          <MenuItem onClick={openModal} icon={<AddIcon color="teal.500" />}>
+            Add New Label
+          </MenuItem>
+
           {labels.map((label) => {
             return (
               <MenuItem
                 key={label._id}
                 icon={
-                  <Button
+                  <DeleteIcon
+                    color="red.500"
                     onClick={() => {
                       handleDeleteLabel(label._id);
                     }}
-                    colorScheme="teal"
-                    size="sm"
-                    variant={"transparent"}
-                    color="red.500"
-                  >
-                    <DeleteIcon />
-                  </Button>
+                  />
                 }
               >
                 {label.label}
