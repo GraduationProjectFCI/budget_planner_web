@@ -51,15 +51,9 @@ function LimitList({ triggerAction, setTriggerAction }) {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
 
-        setLimits(response.data.limits);
-
-        toast({
-          title: "Success",
-          description: response.data.msg,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
+        if (response.status === 200) {
+          setLimits(response.data.limits);
+        }
       } catch (error) {
         if (
           error.response &&
@@ -121,7 +115,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
     }
   };
 
-  const handleUpdateLimit = async (e, limit_id) => {
+  const handleUpdateLimit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);

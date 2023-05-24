@@ -3,7 +3,7 @@ import { Button, HStack, useToast, Box } from "@chakra-ui/react";
 import http from "../connection/connect";
 import SheetList from "../components/SheetList";
 
-const Sheets = ({ triggerAction, setTriggerAction, user }) => {
+const Sheets = ({ triggerAction, setTriggerAction, user, labels }) => {
   const toast = useToast();
 
   const handleAddingSheet = async (sheetType) => {
@@ -69,6 +69,7 @@ const Sheets = ({ triggerAction, setTriggerAction, user }) => {
         triggerAction={triggerAction}
         setTriggerAction={setTriggerAction}
         user={user}
+        labels={labels}
       />
     </Box>
   );

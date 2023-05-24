@@ -9,7 +9,12 @@ import {
 const CustomModal = ({ modalHeader, children, onClose, isOpen }) => {
   return (
     <>
-      <Modal onClose={onClose} isOpen={isOpen} closeOnOverlayClick={false}>
+      <Modal
+        onClose={onClose}
+        isOpen={isOpen}
+        closeOnOverlayClick={false}
+        size="xl"
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{modalHeader}</ModalHeader>

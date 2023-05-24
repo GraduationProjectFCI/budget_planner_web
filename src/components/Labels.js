@@ -55,13 +55,6 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
       );
 
       if (response.status === 200) {
-        toast({
-          title: "Label added.",
-          description: response.data.msg,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
         setTriggerAction(true);
         closeModal();
       }
