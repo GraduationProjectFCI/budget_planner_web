@@ -50,7 +50,6 @@ const States = ({ triggerAction, setTriggerAction, user }) => {
     if (triggerAction !== false) setTriggerAction(false);
   }, [setTriggerAction, toast, triggerAction]);
 
-  ///sdas
   return (
     <>
       <Card mt={4} boxShadow="lg" bg="white">
