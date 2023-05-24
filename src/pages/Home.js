@@ -11,6 +11,7 @@ import {
   useToast,
   HStack,
   Card,
+  Center,
 } from "@chakra-ui/react";
 
 import ProgressbarComponent from "../components/Progressbar";
@@ -195,24 +196,36 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
       </CustomModal>
 
       <Box>
-        <Box mt={5} p={5} boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)">
-          <ProgressbarComponent
-            percentage={progressPercentage}
-            duration={animationDurationInMs}
-            details={
-              <Box
-                textAlign="center"
-                fontSize="md"
-                fontWeight="6xl"
-                color="#666"
-              >
-                <Text fontWeight="bold">{spent} Spent </Text>
-                <Text fontWeight="bold">{remaining} Remaining </Text>
-                <Text fontWeight="bold">{total} Total Budget</Text>
-              </Box>
-            }
-          />
-        </Box>
+        <Center>
+          <Box
+            mt={5}
+            mb={3}
+            p={5}
+            boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)"
+          >
+            <ProgressbarComponent
+              percentage={progressPercentage}
+              duration={animationDurationInMs}
+              progressColor="teal.500"
+              progressBarSize="30rem"
+              fontWeight="bold"
+              fontSize="6xl"
+              TrailColor="#dddddd"
+              details={
+                <Box
+                  textAlign="center"
+                  fontSize="md"
+                  fontWeight="6xl"
+                  color="#666"
+                >
+                  <Text fontWeight="bold">{spent} Spent </Text>
+                  <Text fontWeight="bold">{remaining} Remaining </Text>
+                  <Text fontWeight="bold">{total} Total Budget</Text>
+                </Box>
+              }
+            />
+          </Box>
+        </Center>
 
         <Flex p={4} color="black" justifyContent="center" alignItems="center">
           <Text as="span" fontSize="lg" fontWeight="bold" color="black">

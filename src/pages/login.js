@@ -111,7 +111,7 @@ const Login = () => {
               err.length > 0 && (
                 <Box color="red.500" mt={3} textAlign="center">
                   {err.map((error) => {
-                    return <p>{error}</p>;
+                    return <p key={error}>{error}</p>;
                   })}
                 </Box>
               )

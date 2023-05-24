@@ -214,7 +214,11 @@ const AppWrapper = () => {
                   headPosition="start"
                 />
                 <Container maxW="container.xl">
-                  <States user={user} />
+                  <States
+                    triggerAction={triggerAction}
+                    setTriggerAction={setTriggerAction}
+                    user={user}
+                  />
                 </Container>
               </Box>
               <Sidebar

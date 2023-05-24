@@ -1,8 +1,12 @@
-const States = () => {
+import StatesList from "../components/StatesList";
+
+const States = ({ triggerAction, setTriggerAction, user }) => {
   return (
-    <div>
-      <h1>States</h1>
-    </div>
+    <StatesList
+      triggerAction={triggerAction}
+      setTriggerAction={setTriggerAction}
+      user={user}
+    />
   );
 };
 
