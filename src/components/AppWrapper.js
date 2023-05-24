@@ -38,6 +38,7 @@ const AppWrapper = () => {
   const [triggerAction, setTriggerAction] = useState(false);
 
   const [labels, setLabels] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const getUserLabels = async () => {
@@ -51,7 +52,18 @@ const AppWrapper = () => {
       setLabels(response.data.data);
     };
 
-    if (!triggerAction) getUserLabels();
+    const getUserData = async () => {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      const response = await http.get("/app/profile", {
+        headers: { Authorization: `Bearer ${userData?.token}` },
+      });
+      setUser(response.data.userData);
+    };
+
+    if (!triggerAction) {
+      getUserLabels();
+      getUserData();
+    }
 
     if (triggerAction !== false) setTriggerAction(false);
   }, [triggerAction]);
@@ -133,6 +145,7 @@ const AppWrapper = () => {
                     triggerAction={triggerAction}
                     setTriggerAction={setTriggerAction}
                     labels={labels}
+                    user={user}
                   />
                 </Container>
               </Box>
@@ -169,6 +182,7 @@ const AppWrapper = () => {
                     triggerAction={triggerAction}
                     setTriggerAction={setTriggerAction}
                     labels={labels}
+                    user={user}
                   />
                 </Container>
               </Box>
@@ -200,7 +214,7 @@ const AppWrapper = () => {
                   headPosition="start"
                 />
                 <Container maxW="container.xl">
-                  <States />
+                  <States user={user} />
                 </Container>
               </Box>
               <Sidebar
@@ -235,6 +249,7 @@ const AppWrapper = () => {
                     triggerAction={triggerAction}
                     setTriggerAction={setTriggerAction}
                     labels={labels}
+                    user={user}
                   />
                 </Container>
               </Box>
@@ -269,6 +284,7 @@ const AppWrapper = () => {
                   <Profile
                     triggerAction={triggerAction}
                     setTriggerAction={setTriggerAction}
+                    user={user}
                   />
                 </Container>
               </Box>
