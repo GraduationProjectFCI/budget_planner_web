@@ -53,7 +53,7 @@ const States = ({ triggerAction, setTriggerAction, user }) => {
   return (
     <>
       <Card mt={4} boxShadow="lg" bg="white">
-        {user ? (
+        {user && userData ? (
           <CardBody p={8}>
             <Text fontWeight="bold" fontSize={"2xl"}>
               Here is your data :)
