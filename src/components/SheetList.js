@@ -14,7 +14,6 @@ import {
   Button,
   Select,
   HStack,
-  ModalFooter,
 } from "@chakra-ui/react";
 
 import http from "../connection/connect";
@@ -27,8 +26,6 @@ import CustomModal from "../modals/customModal";
 const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
   const toast = useToast();
   const [sheets, setSheets] = useState(null);
-
-  const [expenses, setExpenses] = useState();
 
   const [selectedSheet, setSheet] = useState();
 
@@ -82,15 +79,7 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
     if (!triggerAction) getUserSheets();
 
     if (triggerAction !== false) setTriggerAction(false);
-  }, [
-    triggerAction,
-    setTriggerAction,
-    toast,
-    selectedSheet,
-    setSheet,
-    expenses,
-    setExpenses,
-  ]);
+  }, [triggerAction, setTriggerAction, toast]);
 
   const handleSheetDelete = async (sheet_id) => {
     try {
@@ -117,7 +106,7 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
       ) {
         toast({
           title: "Error",
-          description: error.response.data.errorLog,
+          description: error.response.data.msg,
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -176,6 +165,18 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
         triggerAction={triggerAction}
         setTriggerAction={setTriggerAction}
         modalHeader="Add Expenses"
+        modalFooter={
+          <>
+            <Text fontSize="lg" fontWeight="bold" textAlign="start" p={4}>
+              {" "}
+              Sheet Value :{" "}
+              {selectedSheet ? selectedSheet.value + " " + user.currency : null}
+            </Text>
+            <Button colorScheme="teal" mr={3} onClick={closeModal}>
+              Cancel
+            </Button>
+          </>
+        }
       >
         {labels.length > 0 ? (
           <form onSubmit={handleAddingExpenses} style={{ width: "100%" }}>
@@ -250,17 +251,9 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
             user={user}
             labels={labels}
             sheet={selectedSheet}
+            closeModal={closeModal}
           />
         </Box>
-        <ModalFooter justifyContent="space-between">
-          <Text fontSize="lg" fontWeight="bold" as={"span"} pe={3}>
-            {`Sheet Value : ${selectedSheet ? selectedSheet.value : 0}
-                    ${user.currency}`}
-          </Text>
-          <Button colorScheme="teal" mr={3} onClick={closeModal}>
-            Cancel
-          </Button>
-        </ModalFooter>
       </CustomModal>
       <Box>
         {sheets.length > 0 ? (
@@ -285,49 +278,56 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
                   bg="gray.50"
                   _hover={{ boxShadow: "xl" }}
                   cursor="pointer"
-                  onClick={() => {
-                    setSheet(sheet);
-                    openModal();
-                  }}
                 >
                   <CardBody>
-                    <Flex justifyContent="space-between" alignItems="center">
-                      <Box>
-                        {sheet.sheet_type === "export" ? (
-                          <ArrowUpIcon color="green.500" />
-                        ) : (
-                          <ArrowDownIcon color="red.500" />
-                        )}
-                        <Text
-                          as={"span"}
-                          fontSize="lg"
-                          fontWeight="bold"
-                          ps={3}
-                        >
-                          {sheet.sheet_type}
-                        </Text>
-                      </Box>
-                      <Text fontWeight="bold">{formattedDate}</Text>
+                    <HStack>
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="center"
+                        w={"100%"}
+                        onClick={() => {
+                          setSheet(sheet);
+                          openModal();
+                        }}
+                      >
+                        <Box>
+                          {sheet.sheet_type === "export" ? (
+                            <ArrowUpIcon color="green.500" />
+                          ) : (
+                            <ArrowDownIcon color="red.500" />
+                          )}
+                          <Text
+                            as={"span"}
+                            fontSize="lg"
+                            fontWeight="bold"
+                            ps={3}
+                          >
+                            {sheet.sheet_type}
+                          </Text>
+                        </Box>
+                        <Text fontWeight="bold">{formattedDate}</Text>
 
-                      <Box>
-                        <Text
-                          fontSize="lg"
-                          fontWeight="bold"
-                          as={"span"}
-                          pe={3}
-                        >
-                          {`${sheet.value} 
+                        <Box>
+                          <Text
+                            fontSize="lg"
+                            fontWeight="bold"
+                            as={"span"}
+                            pe={3}
+                          >
+                            {`${sheet.value} 
                     ${user.currency}`}
-                        </Text>
-                        <DeleteIcon
-                          color="red.500"
-                          cursor="pointer"
-                          onClick={() => {
-                            handleSheetDelete(sheet._id);
-                          }}
-                        />
-                      </Box>
-                    </Flex>
+                          </Text>
+                        </Box>
+                      </Flex>
+                      <DeleteIcon
+                        zIndex={1000}
+                        color="red.500"
+                        cursor="pointer"
+                        onClick={() => {
+                          handleSheetDelete(sheet._id);
+                        }}
+                      />
+                    </HStack>
                   </CardBody>
                 </Card>
               );

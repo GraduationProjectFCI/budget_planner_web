@@ -8,6 +8,23 @@ const theme = extendTheme({
         bg: "#ededed", //for the background color
         color: "black", //for the text color
       },
+      // styles for the `a`
+      a: {
+        color: "teal.500",
+        _hover: {
+          textDecoration: "underline",
+        },
+      },
+
+      //styles for menu
+      ".chakra-menu__menuitem": {
+        color: "black",
+        _hover: {
+          bg: "teal.50",
+
+          color: "teal.500",
+        },
+      },
     },
   },
 

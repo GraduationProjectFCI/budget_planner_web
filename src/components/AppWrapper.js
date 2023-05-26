@@ -74,236 +74,238 @@ const AppWrapper = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header
-                showSidebarButton={false}
-                onShowSidebar={toggleSidebar}
-                showName={false}
-                Page_Header={
-                  <Center>
-                    <Image
-                      src={Wallet}
-                      alt="Wallet"
-                      boxSize="2.5rem"
-                      display="inline-block"
+      <Box pb={3}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Header
+                  showSidebarButton={false}
+                  onShowSidebar={toggleSidebar}
+                  showName={false}
+                  Page_Header={
+                    <Center>
+                      <Image
+                        src={Wallet}
+                        alt="Wallet"
+                        boxSize="2.5rem"
+                        display="inline-block"
+                      />
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Welcome to Budget Planner
+                      </Text>
+                    </Center>
+                  }
+                  headPosition="start"
+                />
+                <Container maxW="container.xl">
+                  <LandPage />
+                </Container>
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <CheckValidty>
+                <Register />
+              </CheckValidty>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <CheckValidty>
+                <Login />
+              </CheckValidty>
+            }
+          />
+          <Route path="/forgot-password" element={<ForgetPassword />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/confirm-email" element={<MailConfirmation />} />
+
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Box ml={!variants?.navigationButton && "15rem"}>
+                  <Header
+                    showName={true}
+                    showSidebarButton={variants?.navigationButton}
+                    onShowSidebar={toggleSidebar}
+                    Page_Header={
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Hello
+                      </Text>
+                    }
+                    headPosition="start"
+                  />
+                  <Container maxW="container.xl">
+                    <Home
+                      triggerAction={triggerAction}
+                      setTriggerAction={setTriggerAction}
+                      labels={labels}
+                      user={user}
                     />
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Welcome to Budget Planner
-                    </Text>
-                  </Center>
-                }
-                headPosition="start"
-              />
-              <Container maxW="container.xl">
-                <LandPage />
-              </Container>
-            </>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <CheckValidty>
-              <Register />
-            </CheckValidty>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <CheckValidty>
-              <Login />
-            </CheckValidty>
-          }
-        />
-        <Route path="/forgot-password" element={<ForgetPassword />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/confirm-email" element={<MailConfirmation />} />
+                  </Container>
+                </Box>
+                <Sidebar
+                  variant={variants?.navigation}
+                  isOpen={isSidebarOpen}
+                  onClose={toggleSidebar}
+                  triggerAction={triggerAction}
+                  setTriggerAction={setTriggerAction}
+                  labels={labels}
+                />
+              </PrivateRoute>
+            }
+          />
 
-        <Route
-          path="/home"
-          element={
-            <PrivateRoute>
-              <Box ml={!variants?.navigationButton && "15rem"}>
-                <Header
-                  showName={true}
-                  showSidebarButton={variants?.navigationButton}
-                  onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Hello
-                    </Text>
-                  }
-                  headPosition="start"
-                />
-                <Container maxW="container.xl">
-                  <Home
-                    triggerAction={triggerAction}
-                    setTriggerAction={setTriggerAction}
-                    labels={labels}
-                    user={user}
+          <Route
+            path="/sheets"
+            element={
+              <PrivateRoute>
+                <Box ml={!variants?.navigationButton && "15rem"}>
+                  <Header
+                    showName={true}
+                    showSidebarButton={variants?.navigationButton}
+                    onShowSidebar={toggleSidebar}
+                    Page_Header={
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Here is your Sheets,
+                      </Text>
+                    }
+                    headPosition="start"
                   />
-                </Container>
-              </Box>
-              <Sidebar
-                variant={variants?.navigation}
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                triggerAction={triggerAction}
-                setTriggerAction={setTriggerAction}
-                labels={labels}
-              />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/sheets"
-          element={
-            <PrivateRoute>
-              <Box ml={!variants?.navigationButton && "15rem"}>
-                <Header
-                  showName={true}
-                  showSidebarButton={variants?.navigationButton}
-                  onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Here is your Sheets,
-                    </Text>
-                  }
-                  headPosition="start"
+                  <Container maxW="container.xl">
+                    <Sheets
+                      triggerAction={triggerAction}
+                      setTriggerAction={setTriggerAction}
+                      labels={labels}
+                      user={user}
+                    />
+                  </Container>
+                </Box>
+                <Sidebar
+                  variant={variants?.navigation}
+                  isOpen={isSidebarOpen}
+                  onClose={toggleSidebar}
+                  triggerAction={triggerAction}
+                  setTriggerAction={setTriggerAction}
+                  labels={labels}
                 />
-                <Container maxW="container.xl">
-                  <Sheets
-                    triggerAction={triggerAction}
-                    setTriggerAction={setTriggerAction}
-                    labels={labels}
-                    user={user}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/states"
+            element={
+              <PrivateRoute>
+                <Box ml={!variants?.navigationButton && "15rem"}>
+                  <Header
+                    showName={true}
+                    showSidebarButton={variants?.navigationButton}
+                    onShowSidebar={toggleSidebar}
+                    Page_Header={
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Here is your Statistics,
+                      </Text>
+                    }
+                    headPosition="start"
                   />
-                </Container>
-              </Box>
-              <Sidebar
-                variant={variants?.navigation}
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                triggerAction={triggerAction}
-                setTriggerAction={setTriggerAction}
-                labels={labels}
-              />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/states"
-          element={
-            <PrivateRoute>
-              <Box ml={!variants?.navigationButton && "15rem"}>
-                <Header
-                  showName={true}
-                  showSidebarButton={variants?.navigationButton}
-                  onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Here is your Statistics,
-                    </Text>
-                  }
-                  headPosition="start"
+                  <Container maxW="container.xl">
+                    <States
+                      triggerAction={triggerAction}
+                      setTriggerAction={setTriggerAction}
+                      user={user}
+                    />
+                  </Container>
+                </Box>
+                <Sidebar
+                  variant={variants?.navigation}
+                  isOpen={isSidebarOpen}
+                  onClose={toggleSidebar}
+                  triggerAction={triggerAction}
+                  setTriggerAction={setTriggerAction}
+                  labels={labels}
                 />
-                <Container maxW="container.xl">
-                  <States
-                    triggerAction={triggerAction}
-                    setTriggerAction={setTriggerAction}
-                    user={user}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/deadlines"
+            element={
+              <PrivateRoute>
+                <Box ml={!variants?.navigationButton && "15rem"}>
+                  <Header
+                    showName={true}
+                    showSidebarButton={variants?.navigationButton}
+                    onShowSidebar={toggleSidebar}
+                    Page_Header={
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Here set deadlines for your bills,
+                      </Text>
+                    }
+                    headPosition="start"
                   />
-                </Container>
-              </Box>
-              <Sidebar
-                variant={variants?.navigation}
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                triggerAction={triggerAction}
-                setTriggerAction={setTriggerAction}
-                labels={labels}
-              />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/deadlines"
-          element={
-            <PrivateRoute>
-              <Box ml={!variants?.navigationButton && "15rem"}>
-                <Header
-                  showName={true}
-                  showSidebarButton={variants?.navigationButton}
-                  onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Here set deadlines for your bills,
-                    </Text>
-                  }
-                  headPosition="start"
+                  <Container maxW="container.xl">
+                    <Deadlines
+                      triggerAction={triggerAction}
+                      setTriggerAction={setTriggerAction}
+                      labels={labels}
+                      user={user}
+                    />
+                  </Container>
+                </Box>
+                <Sidebar
+                  triggerAction={triggerAction}
+                  setTriggerAction={setTriggerAction}
+                  variant={variants?.navigation}
+                  isOpen={isSidebarOpen}
+                  onClose={toggleSidebar}
+                  labels={labels}
                 />
-                <Container maxW="container.xl">
-                  <Deadlines
-                    triggerAction={triggerAction}
-                    setTriggerAction={setTriggerAction}
-                    labels={labels}
-                    user={user}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Box ml={!variants?.navigationButton && "15rem"}>
+                  <Header
+                    showName={true}
+                    showSidebarButton={variants?.navigationButton}
+                    onShowSidebar={toggleSidebar}
+                    Page_Header={
+                      <Text as="span" fontSize="lg" fontWeight="bold">
+                        Finally, It's your profile,
+                      </Text>
+                    }
+                    headPosition="start"
                   />
-                </Container>
-              </Box>
-              <Sidebar
-                triggerAction={triggerAction}
-                setTriggerAction={setTriggerAction}
-                variant={variants?.navigation}
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                labels={labels}
-              />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <Box ml={!variants?.navigationButton && "15rem"}>
-                <Header
-                  showName={true}
-                  showSidebarButton={variants?.navigationButton}
-                  onShowSidebar={toggleSidebar}
-                  Page_Header={
-                    <Text as="span" fontSize="lg" fontWeight="bold">
-                      Finally, It's your profile,
-                    </Text>
-                  }
-                  headPosition="start"
+                  <Container maxW="container.xl">
+                    <Profile
+                      triggerAction={triggerAction}
+                      setTriggerAction={setTriggerAction}
+                      user={user}
+                    />
+                  </Container>
+                </Box>
+                <Sidebar
+                  variant={variants?.navigation}
+                  isOpen={isSidebarOpen}
+                  onClose={toggleSidebar}
+                  triggerAction={triggerAction}
+                  setTriggerAction={setTriggerAction}
+                  labels={labels}
                 />
-                <Container maxW="container.xl">
-                  <Profile
-                    triggerAction={triggerAction}
-                    setTriggerAction={setTriggerAction}
-                    user={user}
-                  />
-                </Container>
-              </Box>
-              <Sidebar
-                variant={variants?.navigation}
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                triggerAction={triggerAction}
-                setTriggerAction={setTriggerAction}
-                labels={labels}
-              />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Box>
     </BrowserRouter>
   );
 };
