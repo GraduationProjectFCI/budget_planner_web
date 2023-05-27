@@ -30,7 +30,13 @@ const Header = ({
       setLoggedIn(true);
       const userData = localStorage.getItem("userData");
       const value = JSON.parse(userData);
-      setUserName(value.user.name);
+
+      const first_name = value.user.name.split(" ")[0];
+      if (first_name) {
+        setUserName(first_name);
+      } else {
+        setUserName(value.user.name);
+      }
     } else {
       setLoggedIn(false);
     }

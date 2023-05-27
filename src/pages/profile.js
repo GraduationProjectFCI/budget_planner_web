@@ -89,12 +89,17 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
     return <Loader />;
   }
 
+  //convert birthdate to a readable format
+  const birthDate = new Date(user.birthdate).toLocaleDateString();
+  const age = new Date().getFullYear() - new Date(user.birthdate).getFullYear();
+  const ageString = age > 0 ? `${age} years old` : "You are a baby";
+
   return (
     <>
       <CustomModal
         isOpen={isOpen}
         closeModal={closeModal}
-        title="Update Profile"
+        modalHeader="Update Profile"
         size="md"
       >
         <form onSubmit={handleUpdateUserData}>
@@ -135,7 +140,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
           </HStack>
         </form>
       </CustomModal>
-      <Container maxW="container.md">
+      <Container maxW="container.md" p={4}>
         <Center>
           <Image
             src={PIP}
@@ -171,7 +176,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
 
         <Card boxShadow="md" borderRadius="md" m={3}>
           <CardBody>
-            <Text fontWeight="semibold" fontSize={"2xl"}>
+            <Text fontWeight="semibold" fontSize={"xl"}>
               Name : {user.name}
             </Text>
           </CardBody>
@@ -180,7 +185,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
         <Card boxShadow="md" borderRadius="md" m={3}>
           <CardBody>
             <HStack justifyContent="space-between" alignItems="center">
-              <Text fontWeight="semibold" fontSize={"2xl"}>
+              <Text fontWeight="semibold" fontSize={"xl"}>
                 Email : {user.email}
               </Text>
             </HStack>
@@ -190,7 +195,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
         <Card boxShadow="md" borderRadius="md" m={3}>
           <CardBody>
             <HStack justifyContent="space-between" alignItems="center">
-              <Text fontWeight="semibold" fontSize={"2xl"}>
+              <Text fontWeight="semibold" fontSize={"xl"}>
                 Gender : {user.gender}
               </Text>
             </HStack>
@@ -200,7 +205,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
         <Card boxShadow="md" borderRadius="md" m={3}>
           <CardBody>
             <HStack justifyContent="space-between" alignItems="center">
-              <Text fontWeight="semibold" fontSize={"2xl"}>
+              <Text fontWeight="semibold" fontSize={"xl"}>
                 Budget : {user.budget}
               </Text>
             </HStack>
@@ -210,8 +215,18 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
         <Card boxShadow="md" borderRadius="md" m={3}>
           <CardBody>
             <HStack justifyContent="space-between" alignItems="center">
-              <Text fontWeight="semibold" fontSize={"2xl"}>
+              <Text fontWeight="semibold" fontSize={"xl"}>
                 Currency : {user.currency}
+              </Text>
+            </HStack>
+          </CardBody>
+        </Card>
+
+        <Card boxShadow="md" borderRadius="md" m={3}>
+          <CardBody>
+            <HStack justifyContent="space-between" alignItems="center">
+              <Text fontWeight="semibold" fontSize={"xl"}>
+                Birth Date : {birthDate} ({ageString})
               </Text>
             </HStack>
           </CardBody>
