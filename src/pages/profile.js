@@ -63,6 +63,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
         if (response.status === 200) {
           setTriggerAction(true);
           setLoading(false);
+          closeModal();
 
           toast({
             title: "Success",
