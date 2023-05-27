@@ -171,7 +171,13 @@ const ExpensesList = ({
                     <AccordionItem key={expense._id}>
                       <HStack spacing={4} align="center">
                         <Box w="100%">
-                          <AccordionButton>
+                          <AccordionButton
+                            onClick={() => {
+                              setLabel(expense.label);
+                              setValue(expense.value);
+                              setDescription(expense.description);
+                            }}
+                          >
                             <VStack spacing={4} w="100%">
                               <HStack justifyContent="space-between" w="100%">
                                 <Box flex="1" textAlign="left">
@@ -188,6 +194,7 @@ const ExpensesList = ({
                               </HStack>
                             </VStack>
                           </AccordionButton>
+
                           <AccordionPanel>
                             <form
                               onSubmit={(e) => {
@@ -197,6 +204,7 @@ const ExpensesList = ({
                               <HStack spacing={4} pt={4} pb={4}>
                                 <Select
                                   placeholder="Select Label"
+                                  value={label}
                                   onChange={(e) => {
                                     setLabel(e.target.value);
                                   }}
@@ -210,6 +218,7 @@ const ExpensesList = ({
                                 <Input
                                   type="number"
                                   placeholder="Value"
+                                  value={value}
                                   onChange={(e) => {
                                     setValue(e.target.value);
                                   }}
@@ -219,6 +228,7 @@ const ExpensesList = ({
                                 <Input
                                   type="text"
                                   placeholder="Description"
+                                  value={description}
                                   onChange={(e) => {
                                     setDescription(e.target.value);
                                   }}
@@ -228,6 +238,8 @@ const ExpensesList = ({
                                   isLoading={isLoading}
                                   loadingText="Updating.."
                                   type="submit"
+                                  ps={5}
+                                  pe={5}
                                 >
                                   Update
                                 </Button>
@@ -289,6 +301,21 @@ const ExpensesList = ({
           <Spinner color="teal.500" size="md" p={3} />
         </Center>
       )}
+
+      <HStack spacing={4} align="center" justify="space-between" pt={4}>
+        <Text fontSize="lg" fontWeight="bold" textAlign="start" p={4}>
+          {" "}
+          Sheet Value :{" "}
+          {expenses
+            ? expenses.reduce((acc, expense) => {
+                return acc + expense.value;
+              }, 0)
+            : 0}{" "}
+        </Text>
+        <Button colorScheme="teal" mr={3} onClick={closeModal}>
+          Cancel
+        </Button>
+      </HStack>
     </Box>
   );
 };

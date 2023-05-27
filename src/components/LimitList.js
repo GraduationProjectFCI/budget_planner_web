@@ -288,7 +288,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
                         %
                       </Text>
                     </HStack>
-                    {limit.limit === limit.value ? (
+                    {limit.limit <= limit.value ? (
                       <Text color="red.500" fontSize="sm" fontWeight="bold">
                         Limit Reached
                       </Text>

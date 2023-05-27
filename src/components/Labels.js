@@ -109,7 +109,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
   if (!labels) {
     return (
       <Center>
-        <Spinner color="teal.500" size="md" p={3} />
+        <Spinner color="teal.500" size="sm" m={1} />
       </Center>
     );
   }

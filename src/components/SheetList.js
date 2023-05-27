@@ -165,18 +165,6 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
         triggerAction={triggerAction}
         setTriggerAction={setTriggerAction}
         modalHeader="Add Expenses"
-        modalFooter={
-          <>
-            <Text fontSize="lg" fontWeight="bold" textAlign="start" p={4}>
-              {" "}
-              Sheet Value :{" "}
-              {selectedSheet ? selectedSheet.value + " " + user.currency : null}
-            </Text>
-            <Button colorScheme="teal" mr={3} onClick={closeModal}>
-              Cancel
-            </Button>
-          </>
-        }
       >
         {labels.length > 0 ? (
           <form onSubmit={handleAddingExpenses} style={{ width: "100%" }}>
