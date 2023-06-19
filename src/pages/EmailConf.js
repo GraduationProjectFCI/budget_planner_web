@@ -67,7 +67,7 @@ const MailConfirmation = () => {
     try {
       const response = await http.post("/auth/confirmation", formValues);
 
-      if (response.data.status === 200) {
+      if (response.status === 200) {
         setLoading(false);
 
         //store the token locally

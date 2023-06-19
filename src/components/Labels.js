@@ -56,6 +56,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
 
       if (response.status === 200) {
         setTriggerAction(true);
+        setLoading(false);
         closeModal();
       }
     } catch (error) {
