@@ -11,7 +11,7 @@ const LandPage = () => {
           height: "100vh",
         }}
         title="Task Manager Dashboard"
-        src="https://charts.mongodb.com/charts-task-manager-tkjls/embed/dashboards?id=0608d54e-2393-4cf6-a5d2-34b0d17174ed&theme=light&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=true&scalingWidth=scale&scalingHeight=scale"
+        src="https://charts.mongodb.com/charts-task-manager-tkjls/embed/dashboards?id=0608d54e-2393-4cf6-a5d2-34b0d17174ed&theme=light&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=true&scalingWidth=fixed&scalingHeight=fixed"
       ></iframe>
     </div>
   );
