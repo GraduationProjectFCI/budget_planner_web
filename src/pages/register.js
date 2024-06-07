@@ -184,7 +184,6 @@ const Register = () => {
                 colorScheme="teal"
                 type="submit"
                 width="100%"
-                textColor="white"
               >
                 Register
               </Button>

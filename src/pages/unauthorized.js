@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-  Image,
-  Text,
-  Box,
-  Center,
-  HStack,
-  Button,
-} from "@chakra-ui/react";
+import { Image, Text, Box, Center, HStack, Button } from "@chakra-ui/react";
 import unauthorizedImage from "../assets/Unauthorized.png";
 
 const Unauthorized = () => {

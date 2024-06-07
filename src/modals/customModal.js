@@ -28,7 +28,6 @@ const CustomModal = ({
           <ModalHeader
             fontSize="2xl"
             fontWeight="bold"
-            color="black"
             textAlign="center"
             p={3}
             justifyContent="space-between"

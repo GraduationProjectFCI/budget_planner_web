@@ -52,7 +52,7 @@ const States = ({ triggerAction, setTriggerAction, user }) => {
 
   return (
     <>
-      <Card mt={4} boxShadow="lg" bg="white">
+      <Card mt={4} boxShadow="lg" bg={"rgb(0,0,0,0.09)"}>
         {user && userData ? (
           <CardBody p={8}>
             <Text fontWeight="bold" fontSize={"2xl"}>

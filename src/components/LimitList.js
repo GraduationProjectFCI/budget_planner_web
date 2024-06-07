@@ -350,13 +350,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
             })}
           </Stack>
         ) : (
-          <VStack
-            color="gray"
-            spacing={3}
-            justifyContent="center"
-            alignItems="center"
-            p={5}
-          >
+          <VStack spacing={3} justifyContent="center" alignItems="center" p={5}>
             <CloseIcon boxSize="40px" />
 
             <Text textAlign="center" fontSize="lg" fontWeight="bold">

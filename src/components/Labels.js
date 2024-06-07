@@ -110,7 +110,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
   if (!labels) {
     return (
       <Center>
-        <Spinner color="teal.500" size="sm" m={1} />
+        <Spinner color="teal.500" emptyArea="gray.200" size="sm" m={1} />
       </Center>
     );
   }
@@ -180,7 +180,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
         </form>
       </CustomModal>
       <Menu closeOnSelect={false} placement="bottom">
-        <MenuButton as={IconButton} aria-label="Options">
+        <MenuButton as={IconButton} aria-label="Options" colorScheme={"teal"}>
           Labels
         </MenuButton>
         <MenuList>

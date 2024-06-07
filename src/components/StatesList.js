@@ -82,7 +82,7 @@ const StatesList = ({ triggerAction, setTriggerAction }) => {
   ];
 
   return (
-    <Card mt={4} boxShadow="lg" bg="white" rounded="lg" p={4}>
+    <Card mt={4} boxShadow="lg" rounded="lg" p={4} bg={"rgb(0,0,0,0.09)"}>
       <Text fontWeight="bold" fontSize={"2xl"} p={4}>
         Statistics
       </Text>
@@ -97,7 +97,7 @@ const StatesList = ({ triggerAction, setTriggerAction }) => {
             <Card
               p={4}
               boxShadow="lg"
-              bg="#f9f9f9"
+              // bg="#f9f9f9"
               rounded="lg"
               overflow="hidden"
               key={state._id}
@@ -116,13 +116,13 @@ const StatesList = ({ triggerAction, setTriggerAction }) => {
                     progressBarSize="14rem"
                     fontWeight="bold"
                     fontSize="5xl"
-                    TrailColor="#dddddd"
+                    // TrailColor="#dddddd"
                     details={
                       <Box
                         textAlign="center"
                         fontSize="md"
                         fontWeight="6xl"
-                        color="#666"
+                        // color="#666"
                       >
                         <Text fontWeight="bold" fontSize={"sm"}>
                           {`${state.expensesSum}${" "} Spent Budget`}
@@ -137,13 +137,13 @@ const StatesList = ({ triggerAction, setTriggerAction }) => {
                     progressBarSize="14rem"
                     fontWeight="bold"
                     fontSize="5xl"
-                    TrailColor="#dddddd"
+                    // TrailColor="#dddddd"
                     details={
                       <Box
                         textAlign="center"
                         fontSize="md"
                         fontWeight="6xl"
-                        color="#666"
+                        // color="#666"
                       >
                         <Text fontWeight="bold" fontSize={"sm"}>
                           {`${state.expensesSum}${" "} Total Budget`}

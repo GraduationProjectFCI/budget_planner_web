@@ -16,15 +16,12 @@ const theme = extendTheme({
         },
       },
 
-      //styles for menu
-      ".chakra-menu__menuitem": {
+      // text color is dark
+      p: {
         color: "black",
-        _hover: {
-          bg: "teal.50",
-
-          color: "teal.500",
-        },
       },
+
+      
     },
   },
 

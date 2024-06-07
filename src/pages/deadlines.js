@@ -151,7 +151,9 @@ const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
       </CustomModal>
       <Box mt={4} p={8}>
         <Center>
-          <Button onClick={openModal}>Add deadline</Button>
+          <Button onClick={openModal} colorScheme="teal">
+            Add deadline
+          </Button>
         </Center>
 
         <DeadlineList

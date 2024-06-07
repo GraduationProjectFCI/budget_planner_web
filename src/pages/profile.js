@@ -134,7 +134,7 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
           <Text color="red.500">{error}</Text>
 
           <HStack justifyContent="end" alignItems="center">
-            <Button type="submit" isLoading={isLoading}>
+            <Button type="submit" isLoading={isLoading} colorScheme={"teal"}>
               Update
             </Button>
             <Button onClick={closeModal}>Cancel</Button>
@@ -153,14 +153,15 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
           />
         </Center>
 
-        <Flex p={4} color="black" justifyContent="center" alignItems="center">
-          <Text as="span" fontSize="lg" fontWeight="semibold" color="black">
+        <Flex p={4} justifyContent="center" alignItems="center">
+          <Text as="span" fontSize="lg" fontWeight="semibold">
             Your Data
           </Text>
 
           <Spacer />
           <Box>
             <Button
+              colorScheme={"teal"}
               size="sm"
               onClick={() => {
                 setName(user.name);

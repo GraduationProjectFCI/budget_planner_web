@@ -115,7 +115,6 @@ const MailConfirmation = () => {
             <Button
               type="submit"
               width="100%"
-              textColor="white"
               mt={5}
               isLoading={isLoading}
               loadingText="Loading.."

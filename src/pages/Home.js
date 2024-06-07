@@ -210,13 +210,13 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
               progressBarSize="30rem"
               fontWeight="bold"
               fontSize="6xl"
-              TrailColor="#dddddd"
+              // TrailColor="#dddddd"
               details={
                 <Box
                   textAlign="center"
                   fontSize="md"
                   fontWeight="6xl"
-                  color="#666"
+                  // color="#666"
                 >
                   <Text fontWeight="bold">{spent} Spent </Text>
                   <Text fontWeight="bold">{remaining} Remaining </Text>
@@ -227,8 +227,8 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           </Box>
         </Center>
 
-        <Flex p={4} color="black" justifyContent="center" alignItems="center">
-          <Text as="span" fontSize="lg" fontWeight="bold" color="black">
+        <Flex p={4} justifyContent="center" alignItems="center">
+          <Text as="span" fontSize="lg" fontWeight="bold">
             Monthly Limits
           </Text>
 
@@ -236,6 +236,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           <Box>
             <Button
               size="sm"
+              colorScheme={"teal"}
               onClick={() => {
                 openModal();
               }}
@@ -245,7 +246,7 @@ const Home = ({ triggerAction, setTriggerAction, labels }) => {
           </Box>
         </Flex>
         <Card
-          bgColor={"#e5e5e5"}
+          bg={"rgb(0,0,0,0.09)"}
           minH={"10rem"}
           boxShadow=" 0px 6px 8px -10px rgba(0,0,0,0.5)"
           borderRadius="md"

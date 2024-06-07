@@ -28,29 +28,29 @@ const SidebarContent = ({
 }) => (
   <VStack as="nav" spacing={3} align="stretch" pt={2}>
     <Link to="/home">
-      <Button w="full" onClick={onClick}>
+      <Button colorScheme={"teal"} w="full" onClick={onClick}>
         Home
       </Button>
     </Link>
 
     <Link to="/sheets">
-      <Button w="full" onClick={onClick}>
+      <Button colorScheme={"teal"} w="full" onClick={onClick}>
         Sheets
       </Button>
     </Link>
 
     <Link to="/states">
-      <Button w="full" onClick={onClick}>
+      <Button w="full" colorScheme={"teal"} onClick={onClick}>
         Statistics
       </Button>
     </Link>
     <Link to="/deadlines">
-      <Button w="full" onClick={onClick}>
+      <Button w="full" colorScheme={"teal"} onClick={onClick}>
         Deadlines
       </Button>
     </Link>
     <Link to="/profile">
-      <Button w="full" onClick={onClick}>
+      <Button w="full" colorScheme={"teal"} onClick={onClick}>
         Profile
       </Button>
     </Link>
@@ -89,12 +89,7 @@ const Sidebar = ({
             display="inline-block"
           />
           <Link to="/">
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              color="black"
-              textAlign="center"
-            >
+            <Text fontSize="xl" fontWeight="bold" textAlign="center">
               Budget Planner
             </Text>
           </Link>
@@ -122,7 +117,6 @@ const Sidebar = ({
           <DrawerHeader
             borderBottomWidth="1px"
             textAlign="center"
-            color="black"
             fontSize="2xl"
             fontWeight="bold"
             p={3}

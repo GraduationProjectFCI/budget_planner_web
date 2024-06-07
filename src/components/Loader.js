@@ -6,7 +6,6 @@ const Loader = () => {
       minH="100vh"
       display="flex"
       p={4}
-      color="white"
       textAlign="center"
       justifyContent="center"
     >

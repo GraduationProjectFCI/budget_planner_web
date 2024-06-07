@@ -96,7 +96,6 @@ const Login = () => {
             colorScheme="teal"
             type="submit"
             width="100%"
-            textColor="white"
             mt={5}
           >
             Login

@@ -263,7 +263,6 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
                   w={"100%"}
                   size={"lg"}
                   boxShadow="lg"
-                  bg="gray.50"
                   _hover={{ boxShadow: "xl" }}
                   cursor="pointer"
                 >
