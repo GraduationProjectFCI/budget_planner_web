@@ -86,6 +86,48 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
       });
   };
 
+  const handleResetSpentBudget = () => {
+    setLoading(true);
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    http
+      .post(
+        "/app/reset-spent-budget",
+        {},
+        {
+          headers: { Authorization: `Bearer ${userData?.token}` },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setTriggerAction(true);
+          setLoading(false);
+          toast({
+            title: "Success",
+            description: response.data.msg,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.errorLog
+        ) {
+          toast({
+            title: "Error",
+            description: error.response.data.errorLog,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          setLoading(false);
+        }
+      });
+  };
+
   if (!user) {
     return <Loader />;
   }
@@ -233,6 +275,17 @@ const Profile = ({ triggerAction, setTriggerAction, user }) => {
             </HStack>
           </CardBody>
         </Card>
+
+        <Center>
+          <Button
+            colorScheme="red"
+            size="md"
+            onClick={handleResetSpentBudget}
+            isLoading={isLoading}
+          >
+            Reset Spent Budget
+          </Button>
+        </Center>
       </Container>
     </>
   );
