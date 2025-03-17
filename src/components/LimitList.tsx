@@ -24,15 +24,28 @@ import CustomModal from "../modals/customModal";
 
 import http from "../connection/connect";
 
-function LimitList({ triggerAction, setTriggerAction }) {
-  const [limits, setLimits] = useState(null);
-  const [limit, setLimit] = useState();
-  const [selectedItem, setItem] = useState();
+interface Limit {
+  _id: string;
+  label: string;
+  limit: number;
+  value: number;
+  created_at: string;
+}
 
-  const [error, setError] = useState();
-  const [isLoading, setLoading] = useState();
+interface LimitListProps {
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+}
 
-  const [isOpen, setIsOpen] = useState(false);
+function LimitList({ triggerAction, setTriggerAction }: LimitListProps) {
+  const [limits, setLimits] = useState<Limit[] | null>(null);
+  const [limit, setLimit] = useState<number | undefined>();
+  const [selectedItem, setItem] = useState<Limit | undefined>();
+
+  const [error, setError] = useState<string | string[] | undefined>();
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // modal handlers
   const openModal = () => setIsOpen(true);
@@ -46,7 +59,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
   useEffect(() => {
     const getUserLimits = async () => {
       try {
-        const userData = JSON.parse(localStorage.getItem("userData"));
+        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
         const response = await http.get("/app/limits", {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
@@ -54,7 +67,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
         if (response.status === 200) {
           setLimits(response.data.limits);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (
           error.response &&
           error.response.data &&
@@ -78,12 +91,12 @@ function LimitList({ triggerAction, setTriggerAction }) {
     if (triggerAction !== false) setTriggerAction(false);
   }, [triggerAction, setTriggerAction, toast, setLimits]);
 
-  const handleDeleteLimit = async (limit_id) => {
+  const handleDeleteLimit = async (limit_id: string) => {
     try {
       const response = await http.delete(`/app/limits/${limit_id}`, {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userData"))?.token
+            JSON.parse(localStorage.getItem("userData") || "{}")?.token
           }`,
         },
       });
@@ -98,7 +111,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
         });
         setTriggerAction(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -115,21 +128,21 @@ function LimitList({ triggerAction, setTriggerAction }) {
     }
   };
 
-  const handleUpdateLimit = async (e) => {
+  const handleUpdateLimit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
       const response = await http.patch(
-        `/app/limits/${selectedItem._id}`,
+        `/app/limits/${selectedItem?._id}`,
         {
           limit: limit,
         },
         {
           headers: {
             Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("userData"))?.token
+              JSON.parse(localStorage.getItem("userData") || "{}")?.token
             }`,
           },
         }
@@ -146,7 +159,7 @@ function LimitList({ triggerAction, setTriggerAction }) {
         });
         setTriggerAction(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -182,20 +195,20 @@ function LimitList({ triggerAction, setTriggerAction }) {
                 type="number"
                 value={limit}
                 onChange={(e) => {
-                  setLimit(e.target.value);
+                  setLimit(parseInt(e.target.value));
                 }}
               />
             </FormControl>
 
             {error ? (
-              typeof err === "string" ? (
+              typeof error === "string" ? (
                 <Box color="red.500" mt={3}>
                   {error}
                 </Box>
               ) : error.length > 0 ? (
                 <Box color="red.500" mt={3} textAlign="center">
-                  {error.map((error) => {
-                    return <p key={error}>{error}</p>;
+                  {error.map((err) => {
+                    return <p key={err}>{err}</p>;
                   })}
                 </Box>
               ) : (

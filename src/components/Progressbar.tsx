@@ -5,7 +5,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-const CircularProgressBar = ({
+interface CircularProgressBarProps {
+  percentage: number;
+  duration: number;
+  details?: React.ReactNode;
+  progressColor: string;
+  progressBarSize: string;
+  fontWeight: string;
+  fontSize: string;
+  TrailColor?: string;
+}
+
+const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
   percentage,
   duration,
   details,

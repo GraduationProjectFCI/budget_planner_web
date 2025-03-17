@@ -23,35 +23,63 @@ import ExpensesList from "../components/ExpensesList";
 import { ArrowDownIcon, ArrowUpIcon, DeleteIcon } from "@chakra-ui/icons";
 import CustomModal from "../modals/customModal";
 
-const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
+interface Sheet {
+  _id: string;
+  sheet_type: string;
+  created_at: string;
+  value: number;
+}
+
+interface User {
+  currency: string;
+}
+
+interface Label {
+  _id: string;
+  label: string;
+}
+
+interface SheetListProps {
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+  user: User;
+  labels: Label[];
+}
+
+const SheetList: React.FC<SheetListProps> = ({
+  triggerAction,
+  setTriggerAction,
+  user,
+  labels,
+}) => {
   const toast = useToast();
-  const [sheets, setSheets] = useState(null);
+  const [sheets, setSheets] = useState<Sheet[] | null>(null);
 
-  const [selectedSheet, setSheet] = useState();
+  const [selectedSheet, setSheet] = useState<Sheet | null>(null);
 
-  const [error, setError] = useState();
-  const [isLoading, setLoading] = useState();
+  const [error, setError] = useState<string | string[] | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   //form states
-  const [label, setLabel] = useState();
-  const [description, setDescription] = useState();
-  const [value, setValue] = useState();
+  const [label, setLabel] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [value, setValue] = useState<number | null>(null);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // modal handlers
   const openModal = () => {
     setIsOpen(true);
   };
   const closeModal = () => {
-    setError("");
+    setError(null);
     setIsOpen(false);
   };
 
   useEffect(() => {
     const getUserSheets = async () => {
       try {
-        const userData = JSON.parse(localStorage.getItem("userData"));
+        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
         const response = await http.get("/app/sheets", {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
@@ -59,7 +87,7 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
         if (response.status === 200) {
           setSheets(response.data.data);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (
           error.response &&
           error.response.data &&
@@ -81,9 +109,9 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
     if (triggerAction !== false) setTriggerAction(false);
   }, [triggerAction, setTriggerAction, toast]);
 
-  const handleSheetDelete = async (sheet_id) => {
+  const handleSheetDelete = async (sheet_id: string) => {
     try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.delete(`/app/sheets/${sheet_id}`, {
         headers: { Authorization: `Bearer ${userData?.token}` },
       });
@@ -98,7 +126,7 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
           isClosable: true,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -115,15 +143,15 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
     }
   };
 
-  const handleAddingExpenses = async (e) => {
+  const handleAddingExpenses = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError(null);
     setLoading(true);
 
     try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.post(
-        `/app/sheets/${selectedSheet._id}`,
+        `/app/sheets/${selectedSheet?._id}`,
         {
           label,
           description,
@@ -138,7 +166,7 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
         setLoading(false);
         setTriggerAction(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -212,14 +240,14 @@ const SheetList = ({ triggerAction, setTriggerAction, user, labels }) => {
               </HStack>
             </Box>
             {error ? (
-              typeof err === "string" ? (
+              typeof error === "string" ? (
                 <Box color="red.500" mt={3}>
                   {error}
                 </Box>
               ) : error.length > 0 ? (
                 <Box color="red.500" mt={3} textAlign="center">
-                  {error.map((error) => {
-                    return <p key={error}>{error}</p>;
+                  {error.map((err) => {
+                    return <p key={err}>{err}</p>;
                   })}
                 </Box>
               ) : (

@@ -20,20 +20,44 @@ import http from "../connection/connect";
 import { DeleteIcon } from "@chakra-ui/icons";
 import CustomModal from "../modals/customModal";
 
-const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
+interface Deadline {
+  _id: string;
+  deadline_name: string;
+  deadline_date: string;
+  deadline_value: number;
+  created_at: string;
+}
+
+interface User {
+  currency: string;
+}
+
+interface DeadlineListProps {
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+  user: User;
+  labels?: any;
+}
+
+const DeadlineList: React.FC<DeadlineListProps> = ({
+  triggerAction,
+  setTriggerAction,
+  user,
+  labels,
+}) => {
   const toast = useToast();
-  const [deadlines, setDeadLines] = useState();
-  const [selectedDeadline, setDeadline] = useState();
+  const [deadlines, setDeadLines] = useState<Deadline[] | undefined>();
+  const [selectedDeadline, setDeadline] = useState<Deadline | undefined>();
 
   //form state
-  const [deadline_name, setName] = useState();
-  const [deadline_date, setDate] = useState();
-  const [deadline_value, setValue] = useState();
+  const [deadline_name, setName] = useState<string | undefined>();
+  const [deadline_date, setDate] = useState<string | undefined>();
+  const [deadline_value, setValue] = useState<number | undefined>();
 
-  const [error, setError] = useState();
-  const [isLoading, setLoading] = useState();
+  const [error, setError] = useState<string | undefined>();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // modal handlers
   const openModal = () => {
@@ -46,7 +70,7 @@ const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
 
   useEffect(() => {
     const getUserDeadlines = () => {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       http
         .get("/app/deadlines", {
           headers: { Authorization: `Bearer ${userData?.token}` },
@@ -78,9 +102,9 @@ const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
     if (triggerAction !== false) setTriggerAction(false);
   }, [triggerAction, setTriggerAction, toast]);
 
-  const handleDeadLinesDelete = async (deadline_id) => {
+  const handleDeadLinesDelete = async (deadline_id: string) => {
     try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.delete(`/app/deadlines/${deadline_id}`, {
         headers: { Authorization: `Bearer ${userData?.token}` },
       });
@@ -112,14 +136,14 @@ const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
     }
   };
 
-  const handleUpdatingDeadline = async (e) => {
+  const handleUpdatingDeadline = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.patch(
-        `/app/deadlines/${selectedDeadline._id}`,
+        `/app/deadlines/${selectedDeadline?._id}`,
         {
           deadline_name,
           deadline_date,
@@ -182,7 +206,7 @@ const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
                   placeholder="Deadline Value"
                   type="number"
                   value={deadline_value}
-                  onChange={(e) => setValue(e.target.value)}
+                  onChange={(e) => setValue(Number(e.target.value))}
                 />
               </HStack>
 
@@ -194,14 +218,14 @@ const DeadlineList = ({ triggerAction, setTriggerAction, user, labels }) => {
               />
 
               {error ? (
-                typeof err === "string" ? (
+                typeof error === "string" ? (
                   <Box color="red.500" mt={3}>
                     {error}
                   </Box>
                 ) : error.length > 0 ? (
                   <Box color="red.500" mt={3} textAlign="center">
-                    {error.map((error) => {
-                      return <p key={error}>{error}</p>;
+                    {error.map((err) => {
+                      return <p key={err}>{err}</p>;
                     })}
                   </Box>
                 ) : (
