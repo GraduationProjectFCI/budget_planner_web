@@ -6,18 +6,24 @@ import http from "../connection/connect";
 
 import CustomModal from "../modals/customModal";
 
-const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
+interface DeadlinsProps {
+  triggerAction: boolean;
+  setTriggerAction: React.Dispatch<React.SetStateAction<boolean>>;
+  user: any;
+}
+
+const Deadlins: React.FC<DeadlinsProps> = ({ triggerAction, setTriggerAction, user }) => {
   const toast = useToast();
 
   //form state
-  const [deadline_name, setName] = useState();
-  const [deadline_date, setDate] = useState();
-  const [deadline_value, setValue] = useState();
+  const [deadline_name, setName] = useState<string | undefined>();
+  const [deadline_date, setDate] = useState<string | undefined>();
+  const [deadline_value, setValue] = useState<number | undefined>();
 
-  const [error, setError] = useState();
-  const [isLoading, setLoading] = useState();
+  const [error, setError] = useState<string | undefined>();
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // modal handlers
   const openModal = () => {
@@ -28,12 +34,12 @@ const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
     setIsOpen(false);
   };
 
-  const handleAddingDeadline = async (e) => {
+  const handleAddingDeadline = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
 
     const formValues = {
       deadline_name,
@@ -58,7 +64,7 @@ const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
         });
         closeModal();
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -92,7 +98,7 @@ const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
               <Input
                 placeholder="Deadline Value"
                 type="number"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setValue(parseFloat(e.target.value))}
               />
             </HStack>
 
@@ -103,14 +109,14 @@ const Deadlins = ({ triggerAction, setTriggerAction, user }) => {
             />
 
             {error ? (
-              typeof err === "string" ? (
+              typeof error === "string" ? (
                 <Box color="red.500" mt={3}>
                   {error}
                 </Box>
               ) : error.length > 0 ? (
                 <Box color="red.500" mt={3} textAlign="center">
-                  {error.map((error) => {
-                    return <p key={error}>{error}</p>;
+                  {error.map((err: string) => {
+                    return <p key={err}>{err}</p>;
                   })}
                 </Box>
               ) : (

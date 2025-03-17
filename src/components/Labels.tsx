@@ -21,13 +21,19 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 
 import CustomModal from "../modals/customModal";
 
-const Labels = ({ triggerAction, setTriggerAction, labels }) => {
-  const toast = useToast();
-  const [error, setError] = useState();
-  const [label, setLabel] = useState("");
-  const [isLoading, setLoading] = useState();
+interface LabelsProps {
+  triggerAction: boolean;
+  setTriggerAction: React.Dispatch<React.SetStateAction<boolean>>;
+  labels: { _id: string; label: string }[];
+}
 
-  const [isOpen, setIsOpen] = useState(false);
+const Labels: React.FC<LabelsProps> = ({ triggerAction, setTriggerAction, labels }) => {
+  const toast = useToast();
+  const [error, setError] = useState<string | string[] | undefined>();
+  const [label, setLabel] = useState<string>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // modal handlers
   const openModal = () => setIsOpen(true);
@@ -37,7 +43,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
     setIsOpen(false);
   };
 
-  const handleAddingLabel = async (e) => {
+  const handleAddingLabel = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -48,7 +54,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
         {
           headers: {
             Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("userData"))?.token
+              JSON.parse(localStorage.getItem("userData") || "{}")?.token
             }`,
           },
         }
@@ -59,7 +65,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
         setLoading(false);
         closeModal();
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -70,12 +76,12 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
     }
   };
 
-  const handleDeleteLabel = async (label_id) => {
+  const handleDeleteLabel = async (label_id: string) => {
     try {
       const response = await http.delete(`/app/labels/${label_id}`, {
         headers: {
           Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("userData"))?.token
+            JSON.parse(localStorage.getItem("userData") || "{}")?.token
           }`,
         },
       });
@@ -90,7 +96,7 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
         });
         setTriggerAction(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -135,14 +141,14 @@ const Labels = ({ triggerAction, setTriggerAction, labels }) => {
           </FormControl>
 
           {error ? (
-            typeof err === "string" ? (
+            typeof error === "string" ? (
               <Box color="red.500" mt={3}>
                 {error}
               </Box>
             ) : error.length > 0 ? (
               <Box color="red.500" mt={3} textAlign="center">
-                {error.map((error) => {
-                  return <p key={error}>{error}</p>;
+                {error.map((err) => {
+                  return <p key={err}>{err}</p>;
                 })}
               </Box>
             ) : (

@@ -20,7 +20,37 @@ import http from "../connection/connect";
 
 import { DeleteIcon } from "@chakra-ui/icons";
 
-const ExpensesList = ({
+interface User {
+  currency: string;
+}
+
+interface Label {
+  _id: string;
+  label: string;
+}
+
+interface Expense {
+  _id: string;
+  label: string;
+  value: number;
+  description: string;
+  created_at: string;
+}
+
+interface Sheet {
+  _id: string;
+}
+
+interface ExpensesListProps {
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+  user: User;
+  labels: Label[];
+  sheet: Sheet;
+  closeModal: () => void;
+}
+
+const ExpensesList: React.FC<ExpensesListProps> = ({
   triggerAction,
   setTriggerAction,
   user,
@@ -29,18 +59,18 @@ const ExpensesList = ({
   closeModal,
 }) => {
   const toast = useToast();
-  const [error, setError] = useState();
-  const [label, setLabel] = useState("");
-  const [isLoading, setLoading] = useState();
-  const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
+  const [error, setError] = useState<string | string[] | undefined>();
+  const [label, setLabel] = useState<string>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [value, setValue] = useState<number | string>("");
+  const [description, setDescription] = useState<string>("");
 
-  const [expenses, setExpenses] = useState();
+  const [expenses, setExpenses] = useState<Expense[] | undefined>();
 
   useEffect(() => {
-    const getExpenses = async (sheet) => {
+    const getExpenses = async (sheet: Sheet) => {
       try {
-        const userData = JSON.parse(localStorage.getItem("userData"));
+        const userData = JSON.parse(localStorage.getItem("userData") || "{}");
         const response = await http.get(`/app/sheets/${sheet._id}`, {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
@@ -49,7 +79,7 @@ const ExpensesList = ({
           setLoading(false);
           setExpenses(response.data.data);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (
           error.response &&
           error.response.data &&
@@ -73,9 +103,9 @@ const ExpensesList = ({
     if (triggerAction !== false) setTriggerAction(false);
   }, [sheet, triggerAction, setTriggerAction, toast]);
 
-  const handleExpensesDelete = async (expenseId) => {
+  const handleExpensesDelete = async (expenseId: string) => {
     try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.delete(
         `/app/sheets/${sheet._id}/${expenseId}`,
         {
@@ -93,7 +123,7 @@ const ExpensesList = ({
           isClosable: true,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -104,14 +134,14 @@ const ExpensesList = ({
     }
   };
 
-  const handleExpensesUpdate = async (e, expense_id) => {
+  const handleExpensesUpdate = async (e: React.FormEvent, expense_id: string) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
       setLoading(true);
-      const userData = JSON.parse(localStorage.getItem("userData"));
+      const userData = JSON.parse(localStorage.getItem("userData") || "{}");
       const response = await http.patch(
         `/app/sheets/${sheet._id}/${expense_id}`,
         {
@@ -137,7 +167,7 @@ const ExpensesList = ({
           isClosable: true,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       if (
         error.response &&
         error.response.data &&
@@ -246,7 +276,7 @@ const ExpensesList = ({
                               </HStack>
 
                               {error ? (
-                                typeof err === "string" ? (
+                                typeof error === "string" ? (
                                   <Box color="red.500" mt={3}>
                                     {error}
                                   </Box>
@@ -256,8 +286,8 @@ const ExpensesList = ({
                                     mt={3}
                                     textAlign="center"
                                   >
-                                    {error.map((error) => {
-                                      return <p key={error}>{error}</p>;
+                                    {error.map((err) => {
+                                      return <p key={err}>{err}</p>;
                                     })}
                                   </Box>
                                 ) : (

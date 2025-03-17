@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import {
   Box,
   IconButton,
@@ -11,27 +10,33 @@ import {
   Center,
   Text,
 } from "@chakra-ui/react";
-
 import { GoThreeBars } from "react-icons/go";
 import { Link } from "react-router-dom";
-
 import { ColorModeSwitcher } from "../chakra/ColorModeSwitcher";
 
-const Header = ({
+interface HeaderProps {
+  showSidebarButton?: boolean;
+  onShowSidebar?: () => void;
+  Page_Header?: React.ReactNode;
+  headPosition?: string;
+  showName?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({
   showSidebarButton = true,
   onShowSidebar,
   Page_Header,
   headPosition,
   showName,
 }) => {
-  const [isLoggedIn, setLoggedIn] = useState();
-  const [userName, setUserName] = useState();
+  const [isLoggedIn, setLoggedIn] = useState<boolean | undefined>();
+  const [userName, setUserName] = useState<string | undefined>();
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setLoggedIn(true);
       const userData = localStorage.getItem("userData");
-      const value = JSON.parse(userData);
+      const value = JSON.parse(userData || "{}");
 
       const first_name = value.user.name.split(" ")[0];
       if (first_name) {
@@ -45,10 +50,13 @@ const Header = ({
   }, []);
 
   if (!userName) {
-    <Center>
-      <Spinner emptyColor="gray.200" color="teal.500" size="lg" />
-    </Center>;
+    return (
+      <Center>
+        <Spinner emptyColor="gray.200" color="teal.500" size="lg" />
+      </Center>
+    );
   }
+
   return (
     <Flex p={2} justifyContent="center" alignItems="center">
       <Box pe={2}>

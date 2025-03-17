@@ -6,8 +6,17 @@ import {
   ModalHeader,
   ModalFooter,
 } from "@chakra-ui/react";
+import { ReactNode } from "react";
 
-const CustomModal = ({
+interface CustomModalProps {
+  modalHeader: string;
+  children: ReactNode;
+  onClose: () => void;
+  isOpen: boolean;
+  modalFooter?: ReactNode;
+}
+
+const CustomModal: React.FC<CustomModalProps> = ({
   modalHeader,
   children,
   onClose,

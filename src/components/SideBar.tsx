@@ -20,7 +20,14 @@ import LabelsButton from "./Labels";
 
 import { Link } from "react-router-dom";
 
-const SidebarContent = ({
+interface SidebarContentProps {
+  onClick: () => void;
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+  labels: string[];
+}
+
+const SidebarContent: React.FC<SidebarContentProps> = ({
   onClick,
   triggerAction,
   setTriggerAction,
@@ -63,7 +70,16 @@ const SidebarContent = ({
   </VStack>
 );
 
-const Sidebar = ({
+interface SidebarProps {
+  isOpen: boolean;
+  variant: "sidebar" | "drawer";
+  onClose: () => void;
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+  labels: string[];
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   variant,
   onClose,

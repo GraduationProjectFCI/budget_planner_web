@@ -13,14 +13,31 @@ import {
 import Loader from "../components/Loader";
 import ProgressbarComponent from "../components/Progressbar";
 
-const StatesList = ({ triggerAction, setTriggerAction }) => {
+interface State {
+  _id: string;
+  label: string;
+  labelPercentageSpent: number;
+  labelPercentageTotal: number;
+  expensesSum: number;
+}
+
+interface StatesResponse {
+  statistics: State[];
+}
+
+interface StatesListProps {
+  triggerAction: boolean;
+  setTriggerAction: (value: boolean) => void;
+}
+
+const StatesList: React.FC<StatesListProps> = ({ triggerAction, setTriggerAction }) => {
   const toast = useToast();
-  const [states, setStates] = useState();
+  const [states, setStates] = useState<StatesResponse | null>(null);
 
   useEffect(() => {
     const getStates = async () => {
       try {
-        const userData = JSON.parse(localStorage.getItem("userData"));
+        const userData = JSON.parse(localStorage.getItem("userData") || '{}');
         const response = await http.get("/app/statistics", {
           headers: { Authorization: `Bearer ${userData?.token}` },
         });
@@ -28,7 +45,7 @@ const StatesList = ({ triggerAction, setTriggerAction }) => {
         if (response.status === 200) {
           setStates(response.data.data);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (
           error.response &&
           error.response.data &&
